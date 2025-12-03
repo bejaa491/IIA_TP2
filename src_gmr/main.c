@@ -17,15 +17,15 @@ int main(int argc, char *argv[]) {
 
     printf("Problema carregado: C = %d, m = %d\n", prob.C, prob.m);
 
-/*     Solution s;
+    Solution s;
     random_solution(&s);
     print_solution(&s);
 
     
     Solution best = hill_climbing(1000);
     printf("=== HILL CLIMBING ===\n");
-    print_solution(&best); */
-
+    print_solution(&best);
+/* 
         Solution s0;
     random_solution(&s0);
     printf("Solucao inicial:\n");
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     Solution best = hill_climbing_from(s0, 1000);
     printf("\n=== HILL CLIMBING ===\n");
     printf("Solucao final:\n");
-    print_solution(&best);
+    print_solution(&best); */
 
     return 0;
 }

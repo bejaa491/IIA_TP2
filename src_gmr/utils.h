@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#define MAX_CANDIDATES 100
+#define MAX_CANDIDATES 500
 
 typedef struct {
     int C;
