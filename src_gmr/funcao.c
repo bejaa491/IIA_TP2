@@ -1,11 +1,9 @@
 #include <stdio.h>
-#include <string.h>   // para memset, memcpy
-#include "solution.h"
-#include "problem.h"  // para aceder a prob
+#include "funcao.h"
+#include "utils.h"
 
-#define MAX_CANDIDATES 500
-#define MAX_RUNS 10
-#define INF 1e9
+#include <string.h>
+
 
 // Calcula a distância média de uma solução
 double calculate_fitness(Solution *s) {
@@ -67,17 +65,4 @@ void print_solution(Solution *s) {
         if (s->selected[i]) printf("%d ", i);
     }
     printf("\nFitness: %.2f\n", s->fitness);
-}
-// Seleção por torneio
-int tournament_selection(Solution *pop, int pop_size, int tournament_size) {
-    int best = rand() % pop_size;
-
-    for (int i = 1; i < tournament_size; i++) {
-        int candidate = rand() % pop_size;
-        if (pop[candidate].fitness > pop[best].fitness) {
-            best = candidate;
-        }
-    }
-
-    return best;
 }
