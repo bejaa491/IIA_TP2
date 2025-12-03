@@ -6,15 +6,26 @@
 void neighborhood1(Solution *current, Solution *neighbor, Problem *prob) {
     copy_solution(neighbor, current);
 
-    // Encontra um ponto selecionado e um não selecionado
     int selected_pos = -1, unselected_pos = -1;
 
-    for (int i = 0; i < prob->C && selected_pos == -1; i++) {
-        if (neighbor->selected[i]) selected_pos = i;
+    // Encontra um ponto selecionado ALEATÓRIO
+    int attempts = 0;
+    while (selected_pos == -1 && attempts < 100) {
+        int pos = rand() % prob->C;
+        if (neighbor->selected[pos]) {
+            selected_pos = pos;
+        }
+        attempts++;
     }
 
-    for (int i = 0; i < prob->C && unselected_pos == -1; i++) {
-        if (!neighbor->selected[i]) unselected_pos = i;
+    // Encontra um ponto não selecionado ALEATÓRIO
+    attempts = 0;
+    while (unselected_pos == -1 && attempts < 100) {
+        int pos = rand() % prob->C;
+        if (!neighbor->selected[pos]) {
+            unselected_pos = pos;
+        }
+        attempts++;
     }
 
     // Troca
@@ -29,7 +40,6 @@ void neighborhood1(Solution *current, Solution *neighbor, Problem *prob) {
 void neighborhood2(Solution *current, Solution *neighbor, Problem *prob) {
     copy_solution(neighbor, current);
 
-    int count = 0;
     int swap_count = (prob->m >= 2) ? 2 : 1;
 
     for (int tries = 0; tries < swap_count; tries++) {
@@ -39,7 +49,9 @@ void neighborhood2(Solution *current, Solution *neighbor, Problem *prob) {
         int attempts = 0;
         while (sel == -1 && attempts < 100) {
             int pos = rand() % prob->C;
-            if (neighbor->selected[pos]) sel = pos;
+            if (neighbor->selected[pos]) {
+                sel = pos;
+            }
             attempts++;
         }
 
@@ -47,7 +59,9 @@ void neighborhood2(Solution *current, Solution *neighbor, Problem *prob) {
         attempts = 0;
         while (unsel == -1 && attempts < 100) {
             int pos = rand() % prob->C;
-            if (!neighbor->selected[pos]) unsel = pos;
+            if (!neighbor->selected[pos]) {
+                unsel = pos;
+            }
             attempts++;
         }
 
@@ -60,7 +74,7 @@ void neighborhood2(Solution *current, Solution *neighbor, Problem *prob) {
     neighbor->fitness = calculate_fitness(neighbor, prob);
 }
 
-// Hill Climbing
+// Hill Climbing com opção de aceitar soluções de custo igual
 Solution hill_climbing(int max_iter, int neighborhood_type, Problem *prob) {
     Solution current, best, neighbor;
 
@@ -74,12 +88,29 @@ Solution hill_climbing(int max_iter, int neighborhood_type, Problem *prob) {
             neighborhood2(&current, &neighbor, prob);
         }
 
+        // Aceita melhorias ou soluções iguais
         if (neighbor.fitness >= current.fitness) {
             copy_solution(&current, &neighbor);
 
             if (current.fitness > best.fitness) {
                 copy_solution(&best, &current);
             }
+        }
+    }
+
+    return best;
+}
+
+// Hill Climbing com restart para escapar de ótimos locais
+Solution hill_climbing_restart(int max_iter, int neighborhood_type, int num_restarts, Problem *prob) {
+    Solution best;
+    random_solution(&best, prob);
+
+    for (int restart = 0; restart < num_restarts; restart++) {
+        Solution current = hill_climbing(max_iter / num_restarts, neighborhood_type, prob);
+        
+        if (current.fitness > best.fitness) {
+            copy_solution(&best, &current);
         }
     }
 

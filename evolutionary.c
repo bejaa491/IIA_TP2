@@ -117,16 +117,28 @@ void one_point_crossover(Solution *p1, Solution *p2, Solution *child, Problem *p
     child->fitness = calculate_fitness(child, prob);
 }
 
-// Mutação por troca
+// Mutação por troca (CORRIGIDA)
 void swap_mutation(Solution *s, Problem *prob) {
     int sel = -1, unsel = -1;
 
-    for (int i = 0; i < prob->C && sel == -1; i++) {
-        if (s->selected[rand() % prob->C]) sel = rand() % prob->C;
+    // Encontra ponto selecionado aleatório
+    int attempts = 0;
+    while (sel == -1 && attempts < 100) {
+        int pos = rand() % prob->C;
+        if (s->selected[pos]) {
+            sel = pos;
+        }
+        attempts++;
     }
 
-    for (int i = 0; i < prob->C && unsel == -1; i++) {
-        if (!s->selected[rand() % prob->C]) unsel = rand() % prob->C;
+    // Encontra ponto não selecionado aleatório
+    attempts = 0;
+    while (unsel == -1 && attempts < 100) {
+        int pos = rand() % prob->C;
+        if (!s->selected[pos]) {
+            unsel = pos;
+        }
+        attempts++;
     }
 
     if (sel != -1 && unsel != -1) {
@@ -134,6 +146,51 @@ void swap_mutation(Solution *s, Problem *prob) {
         s->selected[unsel] = 1;
         s->fitness = calculate_fitness(s, prob);
     }
+}
+
+//  Mutação por inversão
+void inversion_mutation(Solution *s, Problem *prob) {
+    // Cria array com índices dos pontos selecionados
+    int selected_indices[MAX_CANDIDATES];
+    int count = 0;
+    
+    for (int i = 0; i < prob->C; i++) {
+        if (s->selected[i]) {
+            selected_indices[count++] = i;
+        }
+    }
+
+    if (count < 2) return; // Precisa de pelo menos 2 elementos
+
+    // Escolhe dois pontos aleatórios para inverter
+    int pos1 = rand() % count;
+    int pos2 = rand() % count;
+    
+    if (pos1 > pos2) {
+        int temp = pos1;
+        pos1 = pos2;
+        pos2 = temp;
+    }
+
+    // Inverte a subsequência
+    while (pos1 < pos2) {
+        int temp = selected_indices[pos1];
+        selected_indices[pos1] = selected_indices[pos2];
+        selected_indices[pos2] = temp;
+        pos1++;
+        pos2--;
+    }
+
+    // Reconstrói a solução
+    memset(s->selected, 0, sizeof(s->selected));
+    s->num_selected = 0;
+    
+    for (int i = 0; i < count; i++) {
+        s->selected[selected_indices[i]] = 1;
+        s->num_selected++;
+    }
+
+    s->fitness = calculate_fitness(s, prob);
 }
 
 // Algoritmo evolutivo
@@ -182,7 +239,12 @@ Solution evolutionary_algorithm(int pop_size, int generations, double cross_prob
             }
 
             if ((double)rand() / RAND_MAX < mut_prob) {
-                swap_mutation(&new_population[i], prob);
+                // Alterna entre os dois tipos de mutação
+                if (rand() % 2 == 0) {
+                    swap_mutation(&new_population[i], prob);
+                } else {
+                    inversion_mutation(&new_population[i], prob);
+                }
             }
         }
 

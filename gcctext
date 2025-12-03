@@ -1,1 +1,10 @@
-gcc main.c utils.c hillclimbing.c evolutionary.c hybrid.c -o main
+# Compilar
+gcc -o optimizer main.c utils.c hillclimbing.c evolutionary.c hybrid.c -lm
+
+# Executar com 10 runs (padrão)
+./optimizer tourism_5.txt
+
+# Executar com número personalizado de runs
+./optimizer tourism_5.txt 20
+
+# Resultado: cria ficheiro "resultados_tourism_5.txt_10_runs.txt"

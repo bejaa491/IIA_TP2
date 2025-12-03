@@ -18,6 +18,9 @@ void one_point_crossover(Solution *p1, Solution *p2, Solution *child, Problem *p
 // Mutação por troca
 void swap_mutation(Solution *s, Problem *prob);
 
+// Mutação por inversão
+void inversion_mutation(Solution *s, Problem *prob);
+
 // Algoritmo evolutivo
 Solution evolutionary_algorithm(int pop_size, int generations, double cross_prob,
                                 double mut_prob, int selection_type, int crossover_type,
