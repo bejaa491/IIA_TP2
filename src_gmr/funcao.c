@@ -1,29 +1,28 @@
 #include <stdio.h>
+#include <string.h>   // memset, memcpy
+#include "utils.h"    // para prob
 #include "funcao.h"
-#include "utils.h"
-
-#include <string.h>
-
 
 // Calcula a distância média de uma solução
 double calculate_fitness(Solution *s) {
     if (s->num_selected != prob.m) {
-        return -INF; // Solução inválida
+        return -1e9; // Solução inválida (penalização grande)
     }
 
     double sum = 0.0;
     int count = 0;
 
-    // Converte array binário em lista de índices
     int points[MAX_CANDIDATES];
     int idx = 0;
+
+    // Converte array binário em lista de índices
     for (int i = 0; i < prob.C; i++) {
         if (s->selected[i]) {
             points[idx++] = i;
         }
     }
 
-    // Calcula soma das distâncias
+    // Calcula soma das distâncias em todos os pares
     for (int i = 0; i < prob.m - 1; i++) {
         for (int j = i + 1; j < prob.m; j++) {
             sum += prob.dist[points[i]][points[j]];
@@ -31,7 +30,7 @@ double calculate_fitness(Solution *s) {
         }
     }
 
-    return sum / prob.m;
+    return (count > 0) ? sum / count : -1e9;
 }
 
 // Cria uma solução aleatória válida
@@ -41,7 +40,7 @@ void random_solution(Solution *s) {
 
     // Seleciona m pontos aleatórios diferentes
     while (s->num_selected < prob.m) {
-        int pos = rand() % prob.C;
+        int pos = random_l_h(0, prob.C - 1);
         if (!s->selected[pos]) {
             s->selected[pos] = 1;
             s->num_selected++;
@@ -52,17 +51,17 @@ void random_solution(Solution *s) {
 }
 
 // Copia uma solução
-void copy_solution(Solution *dest, Solution *src) {
+void copy_solution(Solution *dest, const Solution *src) {
     memcpy(dest->selected, src->selected, sizeof(src->selected));
     dest->num_selected = src->num_selected;
     dest->fitness = src->fitness;
 }
 
 // Imprime solução
-void print_solution(Solution *s) {
+void print_solution(const Solution *s) {
     printf("Pontos selecionados: ");
     for (int i = 0; i < prob.C; i++) {
-        if (s->selected[i]) printf("%d ", i);
+        if (s->selected[i]) printf("%d ", i + 1); // +1 para bater com e1..eC
     }
-    printf("\nFitness: %.2f\n", s->fitness);
+    printf("\nFitness: %.6f\n", s->fitness);
 }

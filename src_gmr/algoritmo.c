@@ -1,77 +1,90 @@
-#define _CRT_SECURE_NO_WARNINGS 1
 #include <stdio.h>
-#include <stdlib.h>
-#include "algoritmo.h"
 #include "utils.h"
+#include "funcao.h"
+#include "algoritmo.h"
 
-// Preenche uma estrutura com os progenitores da prÛxima geraÁ„o, de acordo com o resultados do torneio binario (tamanho de torneio: 2)
-// Par‚metros de entrada: populaÁ„o actual (pop), estrutura com par‚metros (d) e populaÁ„o de pais a encher
-void tournament(pchrom pop, struct info d, pchrom parents)
+// Gera vizinho trocando um ponto selecionado por um n√£o selecionado
+void gera_vizinho_swap(const Solution *actual, Solution *vizinho)
 {
-	int i, x1, x2;
+    // come√ßa por copiar a solu√ß√£o actual
+    copy_solution((Solution *)vizinho, actual);
 
-	// Realiza popsize torneios
-	for(i=0; i<d.popsize;i++)
-	{
-		x1 = random_l_h(0, d.popsize-1);
-		do
-			x2 = random_l_h(0, d.popsize-1);
-		while(x1==x2);
-		if(pop[x1].fitness > pop[x2].fitness)		// Problema de maximizacao
-			parents[i]=pop[x1];
-		else
-			parents[i]=pop[x2];
-	}
+    int selecionados[MAX_CANDIDATES];
+    int nao_selecionados[MAX_CANDIDATES];
+    int n_sel = 0, n_nsel = 0;
+
+    // separar √≠ndices selecionados e n√£o selecionados
+    for (int i = 0; i < prob.C; i++) {
+        if (vizinho->selected[i])
+            selecionados[n_sel++] = i;
+        else
+            nao_selecionados[n_nsel++] = i;
+    }
+
+    // escolher um √≠ndice aleat√≥rio de cada grupo
+    int idx_sel  = random_l_h(0, n_sel  - 1);
+    int idx_nsel = random_l_h(0, n_nsel - 1);
+
+    int i_sel  = selecionados[idx_sel];
+    int i_nsel = nao_selecionados[idx_nsel];
+
+    // fazer a troca
+    vizinho->selected[i_sel]  = 0;
+    vizinho->selected[i_nsel] = 1;
+
+    // num_selected continua a ser m
+    // (mas vamos garantir isso explicitamente)
+    vizinho->num_selected = actual->num_selected;
+
+    // recalcular fitness
+    vizinho->fitness = calculate_fitness((Solution *)vizinho);
 }
 
-// Operadores geneticos a usar na geraÁ„o dos filhos
-// Par‚metros de entrada: estrutura com os pais (parents), estrutura com par‚metros (d), estrutura que guardar· os descendentes (offspring)
-void genetic_operators(pchrom parents, struct info d, pchrom offspring)
+Solution hill_climbing(int max_iter)
 {
-    // RecombinaÁ„o com um ponto de corte
-	crossover(parents, d, offspring);
-	// MutaÁ„o bin·ria
-	mutation(offspring, d);
+    Solution actual;
+    Solution vizinho;
+    Solution melhor;
+
+    // solu√ß√£o inicial aleat√≥ria
+    random_solution(&actual);
+    copy_solution(&melhor, &actual);
+
+    for (int it = 0; it < max_iter; it++) {
+        // gera vizinho
+        gera_vizinho_swap(&actual, &vizinho);
+
+        // se vizinho for melhor, aceita
+        if (vizinho.fitness > actual.fitness) {
+            copy_solution(&actual, &vizinho);
+            if (actual.fitness > melhor.fitness) {
+                copy_solution(&melhor, &actual);
+            }
+        }
+        // se n√£o for melhor, ignoramos (trepa-colinas ‚Äúganancioso‚Äù)
+    }
+
+    return melhor;
 }
 
-// Preenche o vector descendentes com o resultado das operaÁıes de recombinaÁ„o
-// Par‚metros de entrada: estrutura com os pais (parents), estrutura com par‚metros (d), estrutura que guardar· os descendentes (offspring)
-void crossover(pchrom parents, struct info d, pchrom offspring)
+// algoritmo.c
+Solution hill_climbing_from(Solution actual, int max_iter)
 {
-	int i, j, point;
+    Solution vizinho;
+    Solution melhor;
 
-	for (i=0; i<d.popsize; i+=2)
-	{
-		if (rand_01() < d.pr)
-		{
-			point = random_l_h(0, d.numGenes-1);
-			for (j=0; j<point; j++)
-			{
-				offspring[i].p[j] = parents[i].p[j];
-				offspring[i+1].p[j] = parents[i+1].p[j];
-			}
-			for (j=point; j<d.numGenes; j++)
-			{
-				offspring[i].p[j]= parents[i+1].p[j];
-				offspring[i+1].p[j] = parents[i].p[j];
-			}
-		}
-		else
-		{
-			offspring[i] = parents[i];
-			offspring[i+1] = parents[i+1];
-		}
-	}
-}
+    copy_solution(&melhor, &actual);
 
-// MutaÁ„o bin·ria com v·rios pontos de mutaÁ„o
-// Par‚metros de entrada: estrutura com os descendentes (offspring) e estrutura com par‚metros (d)
-void mutation(pchrom offspring, struct info d)
-{
-	int i, j;
+    for (int it = 0; it < max_iter; it++) {
+        gera_vizinho_swap(&actual, &vizinho);
 
-	for (i=0; i<d.popsize; i++)
-		for (j=0; j<d.numGenes; j++)
-			if (rand_01() < d.pm)
-				offspring[i].p[j] = !(offspring[i].p[j]);
+        if (vizinho.fitness > actual.fitness) {
+            copy_solution(&actual, &vizinho);
+            if (actual.fitness > melhor.fitness) {
+                copy_solution(&melhor, &actual);
+            }
+        }
+    }
+
+    return melhor;
 }

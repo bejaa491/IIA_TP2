@@ -1,43 +1,14 @@
-#define MAX_OBJ 1000		// Numero maximo de objectos
+#ifndef ALGORITMO_H
+#define ALGORITMO_H
 
-// EStrutura para armazenar parametros
-struct info
-{
-    // Tamanho da população
-    int     popsize;
-    // Probabilidade de mutação
-    float   pm;
-    // Probabilidade de recombinação
-    float   pr;
-    // Tamanho do torneio para seleção do pai da próxima geração
-	int     tsize;
-	// Constante para avaliação com penalização
-	float   ro;
-	// Número de objetos que se podem colocar na mochila
-    int     numGenes;
-	// Capacidade da mochila
-	int     capacity;
-	// Número de gerações
-    int     numGenerations;
-};
+#include "funcao.h"   // para usar Solution
 
-// Individuo (solução)
-typedef struct individual chrom, *pchrom;
+// Gera um vizinho da soluÃ§Ã£o actual (troca 1 ponto escolhido com 1 nÃ£o escolhido)
+void gera_vizinho_swap(const Solution *actual, Solution *vizinho);
 
-struct individual
-{
-    // Solução (objetos que estão dentro da mochila)
-    int     p[MAX_OBJ];
-    // Valor da qualidade da solução
-	float   fitness;
-    // 1 se for uma solução válida e 0 se não for
-	int     valido;
-};
+// Trepa-colinas simples: comeÃ§a numa soluÃ§Ã£o aleatÃ³ria e faz max_iter passos
+Solution hill_climbing(int max_iter);
 
-void tournament(pchrom pop, struct info d, pchrom parents);
+Solution hill_climbing_from(Solution start, int max_iter);
 
-void genetic_operators(pchrom parents, struct info d, pchrom offspring);
-
-void crossover(pchrom parents, struct info d, pchrom offspring);
-
-void mutation(pchrom offspring,struct info d);
+#endif
