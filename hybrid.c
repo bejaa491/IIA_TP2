@@ -2,6 +2,7 @@
 #include "hillclimbing.h"
 #include "evolutionary.h"
 #include "utils.h"
+#include <stdlib.h>
 
 // Híbrido 1: Evolutivo + Hill Climbing na melhor solução
 Solution hybrid1(int pop_size, int generations, Problem *prob) {

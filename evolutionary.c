@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <math.h>
 #include "evolutionary.h"
 #include "utils.h"
 
@@ -193,10 +195,25 @@ void inversion_mutation(Solution *s, Problem *prob) {
     s->fitness = calculate_fitness(s, prob);
 }
 
+// helper: conta fitness distintos (epsilon)
+static int count_unique_fitness(Solution *pop, int pop_size) {
+    const double eps = 1e-6;
+    int unique = 0;
+    for (int i = 0; i < pop_size; ++i) {
+        int seen = 0;
+        for (int j = 0; j < i; ++j) {
+            if (fabs(pop[i].fitness - pop[j].fitness) < eps) { seen = 1; break; }
+        }
+        if (!seen) ++unique;
+    }
+    return unique;
+}
+
 // Algoritmo evolutivo
 Solution evolutionary_algorithm(int pop_size, int generations, double cross_prob,
-                                double mut_prob, int selection_type, int crossover_type,
-                                Problem *prob) {
+    double mut_prob, int selection_type, int crossover_type,
+    Problem *prob) {
+
     Solution *population = malloc(pop_size * sizeof(Solution));
     Solution *new_population = malloc(pop_size * sizeof(Solution));
     Solution best;
@@ -207,6 +224,10 @@ Solution evolutionary_algorithm(int pop_size, int generations, double cross_prob
     }
 
     copy_solution(&best, &population[0]);
+
+#ifdef DEBUG_ALGO
+    printf("EA: init unique fitness = %d\n", count_unique_fitness(population, pop_size));
+#endif
 
     for (int gen = 0; gen < generations; gen++) {
         // Encontra melhor
@@ -247,6 +268,14 @@ Solution evolutionary_algorithm(int pop_size, int generations, double cross_prob
                 }
             }
         }
+
+        // depois de preencher new_population (antes do swap)
+#ifdef DEBUG_ALGO
+        int unique_before = count_unique_fitness(population, pop_size);
+        int unique_after  = count_unique_fitness(new_population, pop_size);
+        printf("EA gen %d: unique_before=%d unique_after=%d best=%.4f\n",
+               gen, unique_before, unique_after, best.fitness);
+#endif
 
         // Elitismo
         copy_solution(&new_population[0], &best);

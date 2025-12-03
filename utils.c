@@ -25,12 +25,15 @@ int read_file(char *filename, Problem *prob) {
         }
     }
 
-    // Detecta o tipo do ficheiro: matriz numérica ou lista de arestas tipo "e1 e2 value"
-    int c = fgetc(f);
-    if (c == EOF) {
-        fclose(f);
-        return 1;
-    }
+    int c;
+    // Avança até ao primeiro carácter não-espaço (pode haver newline depois do header)
+    do {
+        c = fgetc(f);
+        if (c == EOF) {
+            fclose(f);
+            return 1;
+        }
+    } while (isspace(c));
     ungetc(c, f);
 
     if (isdigit(c) || c == '+' || c == '-' || c == '.') {
@@ -113,7 +116,13 @@ void random_solution(Solution *s, Problem *prob) {
         }
     }
 
+    // Debug: valida e calcula fitness se estiver tudo ok
+    if (s->num_selected != prob->m) {
+        fprintf(stderr, "DEBUG random_solution: num_selected (%d) != prob->m (%d)\n", s->num_selected, prob->m);
+    }
     s->fitness = calculate_fitness(s, prob);
+    // opcional: print curto para debug (comente depois)
+    // printf("DEBUG random_solution: fitness=%.6f\n", s->fitness);
 }
 
 // Copia uma solução
@@ -127,7 +136,7 @@ void copy_solution(Solution *dest, Solution *src) {
 void print_solution(Solution *s, Problem *prob) {
     printf("Pontos selecionados: ");
     for (int i = 0; i < prob->C; i++) {
-        if (s->selected[i]) printf("%d ", i);
+        if (s->selected[i]) printf("%d ", i + 1); // imprime 1-based para bater com "e1..eC"
     }
     printf("\nFitness: %.2f\n", s->fitness);
 }

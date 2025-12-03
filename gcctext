@@ -8,3 +8,13 @@ gcc -o optimizer main.c utils.c hillclimbing.c evolutionary.c hybrid.c -lm
 ./optimizer tourism_5.txt 20
 
 # Resultado: cria ficheiro "resultados_tourism_5.txt_10_runs.txt"
+
+# --- Debug: compilar e executar com instrumentacao ---
+# Compilar com DEBUG_ALGO para prints internos (diversidade/operators/best)
+gcc -DDEBUG_ALGO -o optimizer_debug main.c utils.c hillclimbing.c evolutionary.c hybrid.c -lm
+
+# Executar 1 run para inspeção rápida (ver DEBUG seed e prints por geração)
+./optimizer_debug tourism_5.txt 1
+
+# Executar EA apenas com debug (se tiver target para isso)
+./optimizer_debug tourism_20.txt 1
