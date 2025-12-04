@@ -30,7 +30,7 @@ double calculate_fitness(Solution *s) {
         }
     }
 
-    return (count > 0) ? sum / count : -1e9;
+    return (prob.m > 0) ? sum / prob.m : -1e9;
 }
 
 // Cria uma solução aleatória válida
