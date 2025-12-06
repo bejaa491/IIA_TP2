@@ -7,7 +7,7 @@
 #include "algoritmo.h"
 
 // ==========================================================
-// VIZINHANÇAS E MUTAÇÕES
+// 1. VIZINHANÇAS E MUTAÇÕES
 // ==========================================================
 
 // Swap 1: Troca 1 ponto IN por 1 ponto OUT
@@ -28,11 +28,11 @@ void gera_vizinho_swap(const Solution *actual, Solution *vizinho)
     if (n_s == 0 || n_ns == 0)
         return;
 
-    int id_s = random_l_h(0, n_s - 1);
-    int id_ns = random_l_h(0, n_ns - 1);
+    int idx_s = random_l_h(0, n_s - 1);
+    int idx_ns = random_l_h(0, n_ns - 1);
 
-    vizinho->selected[sel[id_s]] = 0;
-    vizinho->selected[nsel[id_ns]] = 1;
+    vizinho->selected[sel[idx_s]] = 0;
+    vizinho->selected[nsel[idx_ns]] = 1;
     vizinho->fitness = calculate_fitness(vizinho);
 }
 
@@ -53,7 +53,7 @@ void gera_vizinho_swap2(const Solution *actual, Solution *vizinho)
 
     if (n_s < 2 || n_ns < 2)
     {
-        gera_vizinho_swap(actual, vizinho); // Fallback
+        gera_vizinho_swap(actual, vizinho); // Fallback se não der para trocar 2
         return;
     }
 
@@ -74,7 +74,7 @@ void gera_vizinho_swap2(const Solution *actual, Solution *vizinho)
     vizinho->fitness = calculate_fitness(vizinho);
 }
 
-// Mutação para o Evolutivo (Alteração direta)
+// Mutações para o Evolutivo (Alteram a solução original)
 void swap_mutation(Solution *s)
 {
     Solution temp;
@@ -90,14 +90,101 @@ void swap2_mutation(Solution *s)
 }
 
 // ==========================================================
-// PESQUISA LOCAL
+// 2. CROSSOVERS (RECOMBINAÇÃO)
 // ==========================================================
 
+// Função auxiliar de reparação (garante sempre m pontos)
+void reparar_solucao(Solution *s)
+{
+    while (s->num_selected < prob.m)
+    {
+        int pos = random_l_h(0, prob.C - 1);
+        if (!s->selected[pos])
+        {
+            s->selected[pos] = 1;
+            s->num_selected++;
+        }
+    }
+    while (s->num_selected > prob.m)
+    {
+        int pos = random_l_h(0, prob.C - 1);
+        if (s->selected[pos])
+        {
+            s->selected[pos] = 0;
+            s->num_selected--;
+        }
+    }
+}
+
+void uniform_crossover(Solution *p1, Solution *p2, Solution *child)
+{
+    child->num_selected = 0;
+    memset(child->selected, 0, sizeof(child->selected));
+    for (int i = 0; i < prob.C; i++)
+    {
+        if (rand_01() < 0.5)
+            child->selected[i] = p1->selected[i];
+        else
+            child->selected[i] = p2->selected[i];
+        if (child->selected[i])
+            child->num_selected++;
+    }
+    reparar_solucao(child);
+    child->fitness = calculate_fitness(child);
+}
+
+void one_point_crossover(Solution *p1, Solution *p2, Solution *child)
+{
+    int cut = random_l_h(1, prob.C - 2);
+    child->num_selected = 0;
+    memset(child->selected, 0, sizeof(child->selected));
+    for (int i = 0; i < cut; i++)
+        child->selected[i] = p1->selected[i];
+    for (int i = cut; i < prob.C; i++)
+        child->selected[i] = p2->selected[i];
+
+    // Recalcular num_selected manualmente
+    for (int i = 0; i < prob.C; i++)
+        if (child->selected[i])
+            child->num_selected++;
+
+    reparar_solucao(child);
+    child->fitness = calculate_fitness(child);
+}
+
+void two_point_crossover(Solution *p1, Solution *p2, Solution *child)
+{
+    int cut1 = random_l_h(0, prob.C - 2);
+    int cut2 = random_l_h(0, prob.C - 1);
+    if (cut1 > cut2)
+    {
+        int t = cut1;
+        cut1 = cut2;
+        cut2 = t;
+    }
+
+    child->num_selected = 0;
+    memset(child->selected, 0, sizeof(child->selected));
+    for (int i = 0; i < prob.C; i++)
+    {
+        if (i < cut1 || i > cut2)
+            child->selected[i] = p1->selected[i];
+        else
+            child->selected[i] = p2->selected[i];
+    }
+
+    for (int i = 0; i < prob.C; i++)
+        if (child->selected[i])
+            child->num_selected++;
+
+    reparar_solucao(child);
+    child->fitness = calculate_fitness(child);
+}
+
 // ==========================================================
-// TREPA-COLINAS (Hill Climbing)
+// 3. PESQUISA LOCAL (HC e SA)
 // ==========================================================
 
-// Função "Normal" (começa do zero)
 Solution hill_climbing(int max_iter, int vizinhanca_tipo)
 {
     Solution actual;
@@ -105,43 +192,29 @@ Solution hill_climbing(int max_iter, int vizinhanca_tipo)
     return hill_climbing_from(actual, max_iter, vizinhanca_tipo);
 }
 
-// Função que aceita Solução Inicial (Essencial para o Híbrido)
-// Trepa-Colinas que aceita uma solução inicial (Para o Híbrido e Testes)
 Solution hill_climbing_from(Solution start_sol, int max_iter, int vizinhanca_tipo)
 {
     Solution actual, vizinho, melhor;
-
-    // 1. Inicializar com a solução recebida (ex: vinda do Evolutivo)
     copy_solution(&actual, &start_sol);
     copy_solution(&melhor, &actual);
 
-    for (int it = 0; it < max_iter; it++)
+    for (int i = 0; i < max_iter; i++)
     {
-        // 2. Escolher a vizinhança dinamicamente
         if (vizinhanca_tipo == 1)
             gera_vizinho_swap(&actual, &vizinho);
         else
             gera_vizinho_swap2(&actual, &vizinho);
 
-        // 3. Aceitar se for melhor OU IGUAL (>=)
-        // Isso permite atravessar "zonas planas" para tentar subir noutro lugar
+        // Aceita se for melhor OU IGUAL (navegar em plateaus)
         if (vizinho.fitness >= actual.fitness)
         {
             copy_solution(&actual, &vizinho);
-
-            // Só atualizamos o melhor global se for estritamente maior
             if (actual.fitness > melhor.fitness)
-            {
                 copy_solution(&melhor, &actual);
-            }
         }
     }
-
     return melhor;
 }
-// ==========================================================
-// SIMULATED ANNEALING
-// ==========================================================
 
 Solution simulated_annealing(double tmax, double tmin, double alpha, int vizinhanca_tipo)
 {
@@ -150,7 +223,6 @@ Solution simulated_annealing(double tmax, double tmin, double alpha, int vizinha
     return simulated_annealing_from(actual, tmax, tmin, alpha, vizinhanca_tipo);
 }
 
-// Versão que aceita ponto de partida (essencial para o Híbrido)
 Solution simulated_annealing_from(Solution start_sol, double tmax, double tmin, double alpha, int vizinhanca_tipo)
 {
     Solution actual, vizinho, melhor;
@@ -161,22 +233,18 @@ Solution simulated_annealing_from(Solution start_sol, double tmax, double tmin, 
     while (T > tmin)
     {
         for (int i = 0; i < 50; i++)
-        { // Iterações por temperatura
+        {
             if (vizinhanca_tipo == 1)
                 gera_vizinho_swap(&actual, &vizinho);
             else
                 gera_vizinho_swap2(&actual, &vizinho);
 
             double delta = vizinho.fitness - actual.fitness;
-
-            // Maximização: delta > 0 é bom
-            if (delta > 0 || rand_01() < exp(delta / T))
+            if (delta >= 0 || rand_01() < exp(delta / T))
             {
                 copy_solution(&actual, &vizinho);
                 if (actual.fitness > melhor.fitness)
-                {
                     copy_solution(&melhor, &actual);
-                }
             }
         }
         T *= alpha;
@@ -185,7 +253,7 @@ Solution simulated_annealing_from(Solution start_sol, double tmax, double tmin, 
 }
 
 // ==========================================================
-// ALGORITMO EVOLUTIVO (Componentes)
+// 4. ALGORITMO EVOLUTIVO
 // ==========================================================
 
 int tournament_selection(Solution *pop, int pop_size, int k)
@@ -204,169 +272,19 @@ int roulette_selection(Solution *pop, int pop_size)
 {
     double sum_fit = 0.0;
     for (int i = 0; i < pop_size; i++)
-        sum_fit += pop[i].fitness;
+        if (pop[i].fitness > 0)
+            sum_fit += pop[i].fitness;
     double r = rand_01() * sum_fit;
     double partial = 0.0;
     for (int i = 0; i < pop_size; i++)
     {
-        partial += pop[i].fitness;
+        if (pop[i].fitness > 0)
+            partial += pop[i].fitness;
         if (partial >= r)
             return i;
     }
     return pop_size - 1;
 }
-
-void uniform_crossover(Solution *p1, Solution *p2, Solution *child)
-{
-    child->num_selected = 0;
-    memset(child->selected, 0, sizeof(child->selected));
-
-    // Herança
-    for (int i = 0; i < prob.C; i++)
-    {
-        if (rand_01() < 0.5)
-            child->selected[i] = p1->selected[i];
-        else
-            child->selected[i] = p2->selected[i];
-
-        if (child->selected[i])
-            child->num_selected++;
-    }
-
-    // Reparação (Adicionar ou Remover até ter m)
-    while (child->num_selected < prob.m)
-    {
-        int pos = random_l_h(0, prob.C - 1);
-        if (!child->selected[pos])
-        {
-            child->selected[pos] = 1;
-            child->num_selected++;
-        }
-    }
-    while (child->num_selected > prob.m)
-    {
-        int pos = random_l_h(0, prob.C - 1);
-        if (child->selected[pos])
-        {
-            child->selected[pos] = 0;
-            child->num_selected--;
-        }
-    }
-    child->fitness = calculate_fitness(child);
-}
-
-// Crossover de Um Ponto (com Reparação Obrigatória)
-void one_point_crossover(Solution *p1, Solution *p2, Solution *child)
-{
-    // 1. Escolher ponto de corte aleatório (evitando as pontas)
-    int cut = random_l_h(1, prob.C - 2);
-
-    child->num_selected = 0;
-    memset(child->selected, 0, sizeof(child->selected));
-
-    // 2. Copiar partes
-    // Parte esquerda do Pai 1
-    for (int i = 0; i < cut; i++)
-    {
-        child->selected[i] = p1->selected[i];
-        if (child->selected[i])
-            child->num_selected++;
-    }
-    // Parte direita do Pai 2
-    for (int i = cut; i < prob.C; i++)
-    {
-        child->selected[i] = p2->selected[i];
-        if (child->selected[i])
-            child->num_selected++;
-    }
-
-    // 3. REPARAÇÃO (Crítica para manter m pontos)
-    // Se tiver a menos, adiciona aleatoriamente
-    while (child->num_selected < prob.m)
-    {
-        int pos = random_l_h(0, prob.C - 1);
-        if (child->selected[pos] == 0)
-        {
-            child->selected[pos] = 1;
-            child->num_selected++;
-        }
-    }
-    // Se tiver a mais, remove aleatoriamente
-    while (child->num_selected > prob.m)
-    {
-        int pos = random_l_h(0, prob.C - 1);
-        if (child->selected[pos] == 1)
-        {
-            child->selected[pos] = 0;
-            child->num_selected--;
-        }
-    }
-
-    child->fitness = calculate_fitness(child);
-}
-
-// Crossover de Dois Pontos (com Reparação Obrigatória)
-void two_point_crossover(Solution *p1, Solution *p2, Solution *child)
-{
-    // 1. Escolher 2 pontos de corte distintos
-    int cut1 = random_l_h(0, prob.C - 2);
-    int cut2 = random_l_h(0, prob.C - 1);
-
-    // Garantir que cut1 é menor que cut2
-    if (cut1 > cut2)
-    {
-        int temp = cut1;
-        cut1 = cut2;
-        cut2 = temp;
-    }
-
-    child->num_selected = 0;
-    memset(child->selected, 0, sizeof(child->selected));
-
-    // 2. Copiar partes
-    for (int i = 0; i < prob.C; i++)
-    {
-        if (i < cut1 || i > cut2)
-        {
-            // Pontas vêm do Pai 1
-            child->selected[i] = p1->selected[i];
-        }
-        else
-        {
-            // O meio vem do Pai 2
-            child->selected[i] = p2->selected[i];
-        }
-
-        if (child->selected[i])
-            child->num_selected++;
-    }
-
-    // 3. REPARAÇÃO (Igual à anterior)
-    while (child->num_selected < prob.m)
-    {
-        int pos = random_l_h(0, prob.C - 1);
-        if (child->selected[pos] == 0)
-        {
-            child->selected[pos] = 1;
-            child->num_selected++;
-        }
-    }
-    while (child->num_selected > prob.m)
-    {
-        int pos = random_l_h(0, prob.C - 1);
-        if (child->selected[pos] == 1)
-        {
-            child->selected[pos] = 0;
-            child->num_selected--;
-        }
-    }
-
-    child->fitness = calculate_fitness(child);
-}
-
-// ==========================================================
-// ALGORITMOS PRINCIPAIS (Evolutivo e Híbrido)
-// ==========================================================
 
 Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross, double prob_mut, int sel_type, int cross_type)
 {
@@ -375,7 +293,6 @@ Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross
     Solution global_best;
     global_best.fitness = -1.0;
 
-    // Inicialização
     for (int i = 0; i < pop_size; i++)
     {
         random_solution(&pop[i]);
@@ -383,11 +300,9 @@ Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross
             copy_solution(&global_best, &pop[i]);
     }
 
-    // Gerações
     for (int g = 0; g < generations; g++)
     {
-        // Elitismo: Melhor passa direto
-        copy_solution(&offspring[0], &global_best);
+        copy_solution(&offspring[0], &global_best); // Elitismo
 
         for (int i = 1; i < pop_size; i++)
         {
@@ -404,27 +319,22 @@ Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross
                 p2 = roulette_selection(pop, pop_size);
             }
 
+            // Crossover
             if (rand_01() < prob_cross)
             {
-                // Crossover Uniforme
                 if (cross_type == 1)
                     uniform_crossover(&pop[p1], &pop[p2], &offspring[i]);
-                // Crossover de Um Ponto
                 else if (cross_type == 2)
                     one_point_crossover(&pop[p1], &pop[p2], &offspring[i]);
-                // Crossover de Dois Pontos
                 else
                     two_point_crossover(&pop[p1], &pop[p2], &offspring[i]);
             }
             else
             {
-                // Sem crossover: Cópia direta
                 copy_solution(&offspring[i], &pop[p1]);
             }
 
-            // C. Mutação
-            // Nota: Mesmo que seja um clone (do else acima), ele ainda pode sofrer mutação.
-            // Isso é correto e desejável!
+            // Mutação
             if (rand_01() < prob_mut)
             {
                 if (rand_01() < 0.5)
@@ -434,7 +344,6 @@ Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross
             }
         }
 
-        // Atualizar população
         for (int i = 0; i < pop_size; i++)
         {
             copy_solution(&pop[i], &offspring[i]);
@@ -449,28 +358,24 @@ Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross
 }
 
 // ==========================================================
-// HÍBRIDO 1: Evolutivo + Simulated Annealing
+// 5. HÍBRIDOS
 // ==========================================================
 
-Solution hybrid_algorithm_1(int pop_size, int generations, double tmax, double tmin, 
-                          int sel_type, int cross_type, int viz_type) 
+// HÍBRIDO 1: Evolutivo + Simulated Annealing
+Solution hybrid_algorithm_1(int pop_size, int generations, double tmax, double tmin, int sel_type, int cross_type, int viz_type)
 {
-    // Fase 1: Evolutivo (com as tuas escolhas de seleção e crossover)
+    // Primeiro executa o algoritmo evolutivo
     Solution best_ga = evolutionary_algorithm(pop_size, generations, 0.7, 0.1, sel_type, cross_type);
-    
-    // Fase 2: SA (com a tua escolha de vizinhança)
+    // Depois aplica Simulated Annealing à melhor solução obtida
     return simulated_annealing_from(best_ga, tmax, tmin, 0.99, viz_type);
 }
 
-// ==========================================================
 // HÍBRIDO 2: Evolutivo + Hill Climbing
-// ==========================================================
-Solution hybrid_algorithm_2(int pop_size, int generations, int hc_iter, 
-                          int sel_type, int cross_type, int viz_type) 
+Solution hybrid_algorithm_2(int pop_size, int generations, int hc_iter, int sel_type, int cross_type, int viz_type)
 {
-    // Fase 1: Evolutivo
+    // Primeiro executa o algoritmo evolutivo
     Solution best_ga = evolutionary_algorithm(pop_size, generations, 0.7, 0.1, sel_type, cross_type);
-    
-    // Fase 2: HC
+    // Depois aplica Hill Climbing à melhor solução obtida
     return hill_climbing_from(best_ga, hc_iter, viz_type);
 }
+
