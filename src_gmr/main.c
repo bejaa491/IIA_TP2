@@ -1,135 +1,171 @@
 #include <stdio.h>
-#include <math.h>
+#include <stdlib.h>
+#include <string.h>
 #include "utils.h"
 #include "funcao.h"
 #include "algoritmo.h"
 
-int main_1(int argc, char *argv[])
+int ler_inteiro(const char *mensagem)
 {
-    if (argc < 2)
+    char buffer[100];
+    int valor;
+    while (1)
     {
-        printf("Uso: %s <ficheiro_tourism>\n", argv[0]);
-        return 1;
+        printf("%s", mensagem);
+        if (fgets(buffer, sizeof(buffer), stdin) != NULL)
+        {
+            if (sscanf(buffer, "%d", &valor) == 1)
+            {
+                return valor;
+            }
+        }
+        printf(" >> Entrada invalida! Tente novamente.\n");
     }
-
-    if (!init_data(argv[1]))
-    {
-        return 1;
-    }
-
-    init_rand();
-
-    printf("Problema carregado: C = %d, m = %d\n", prob.C, prob.m);
-
-    int runs = 10;
-    int iteracoes = 1000;
-    double soma_fitness = 0.0;
-    Solution best_global;
-    best_global.fitness = -1.0;
-
-    printf("=== Teste Vizinhança 1 (SWAP 1) ===\n");
-    for (int i = 0; i < runs; i++)
-    {
-        // Nota: atualizei a chamada para incluir o tipo de vizinhança
-        Solution s = hill_climbing(iteracoes, 2);
-
-        printf("Run %d: %.2f\n", i + 1, s.fitness);
-        soma_fitness += s.fitness;
-
-        if (s.fitness > best_global.fitness)
-            copy_solution(&best_global, &s);
-    }
-
-    printf("\nMedia: %.2f\n", soma_fitness / runs);
-    printf("Melhor encontrada:\n");
-    print_solution(&best_global);
-
-    /*  Solution s;
-     random_solution(&s);
-     print_solution(&s);
-
-
-     Solution best = hill_climbing(1000);
-     printf("=== HILL CLIMBING ===\n");
-     print_solution(&best); */
-    /*
-            Solution s0;
-        random_solution(&s0);
-        printf("Solucao inicial:\n");
-        print_solution(&s0);
-
-        Solution best = hill_climbing_from(s0, 1000);
-        printf("\n=== HILL CLIMBING ===\n");
-        printf("Solucao final:\n");
-        print_solution(&best); */
-
-    return 0;
 }
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
+    char nome_fich[100];
+
+    // Carregamento do ficheiro
+    if (argc == 2)
+        sprintf(nome_fich, "%s", argv[1]);
+    else
     {
-        printf("Uso: %s <ficheiro_tourism>\n", argv[0]);
-        return 1;
+        printf("Ficheiro: ");
+        if (fgets(nome_fich, sizeof(nome_fich), stdin) != NULL)
+        {
+            nome_fich[strcspn(nome_fich, "\n")] = 0;
+        }
+        else
+        {
+            fprintf(stderr, "Erro de leitura do nome do ficheiro.\n");
+            return 1;
+        }
     }
 
-    if (!init_data(argv[1]))
+    if (!init_data(nome_fich))
     {
-        return 1;
+        printf("Erro leitura.\n");
+        return 0;
     }
 
     init_rand();
 
-    printf("Problema carregado: C = %d, m = %d\n", prob.C, prob.m);
-    
+    int opcao;
+    int runs = 10; // Repetições para o relatório
 
-    // Parâmetros a testar
-    double alphas[] = {0.90, 0.95, 0.99};
-    int num_alphas = 3;
-    int num_runs = 10; // O enunciado pede pelo menos 10 repetições
+    // Parâmetros Gerais (defaults)
+    int pop_size = 50;      // População
+    int gen = 1000;         // Gerações
+    int hc_iter = 1000;     // Iterações Hill Climbing
+    double sa_tmax = 100.0; // Temp inicial SA
 
-    printf("=== INICIO DO ESTUDO EXPERIMENTAL ===\n");
-
-    // 1. Ciclo para variar o parâmetro (Alpha)
-    for (int a = 0; a < num_alphas; a++)
+    do
     {
-        double current_alpha = alphas[a];
-        double tmax = 100.0;
-        double tmin = 0.1;
+        printf("\n=== MENU AVANCADO (Ficheiro: %s) ===\n", nome_fich);
+        printf("1. Trepa-Colinas (Hill Climbing)\n");
+        printf("2. Recristalizacao (Simulated Annealing)\n");
+        printf("3. Evolutivo (Algoritmo Genetico)\n");
+        printf("4. Hibrido 1 (GA + SA)\n");
+        printf("5. Hibrido 2 (GA + HC)\n");
+        printf("0. Sair\n");
+        opcao = ler_inteiro("Opcao: ");
 
-        double soma_fitness = 0.0;
-        Solution best_of_all;
-        best_of_all.fitness = -1.0; // Inicializar com valor baixo
+        if (opcao == 0)
+            break;
 
-        printf("\nTestando Alpha: %.2f | Tmax: %.1f | Tmin: %.1f\n", current_alpha, tmax, tmin);
+        // --- SUB-MENU DE ESCOLHAS ---
+        int viz = 1;   // 1=Swap, 2=Swap2
+        int cross = 1; // 1=Unif, 2=OnePoint, 3=TwoPoint
+        int sel = 1;   // 1=Torneio, 2=Roleta
+        int voltar = 0; // Flag para voltar ao menu principal
 
-        // 2. Ciclo das Repetições (Runs)
-        for (int run = 0; run < num_runs; run++)
-        {
-
-            // Chama a tua função (nota: adiciona os argumentos que faltam se necessário)
-            Solution s = simulated_annealing(tmax, tmin, current_alpha, 1);
-
-            soma_fitness += s.fitness;
-
-            // Guardar a melhor de todas as runs
-            if (s.fitness > best_of_all.fitness)
-            {
-                copy_solution(&best_of_all, &s);
-            }
-
-            // Opcional: ver progresso (comentado para não poluir o terminal)
-            // printf(".");
+        // 1. Pergunta da Vizinhança (Para menus 1, 2, 4, 5)
+        if (opcao == 1 || opcao == 2 || opcao == 4 || opcao == 5) {
+            do {
+                viz = ler_inteiro("   > Vizinhanca? (1-Swap Simples, 2-Swap Duplo, 0-Voltar): ");
+            } while (viz < 0 || viz > 2); // Aceita 0, 1, 2
+            
+            if (viz == 0) voltar = 1;
         }
 
-        // Apresentar resultados para este Alpha
-        double media = soma_fitness / num_runs;
-        printf("\nRESULTADOS (media de %d runs):\n", num_runs);
-        printf("Media Fitness: %.2f\n", media);
-        printf("Melhor Fitness Encontrada: %.2f\n", best_of_all.fitness);
-        printf("--------------------------------------------------\n");
-    }
+        // 2. Perguntas do Evolutivo (Para menus 3, 4, 5) - Só entra se não tiver voltado antes
+        if (!voltar && (opcao == 3 || opcao == 4 || opcao == 5)) {
+            
+            // Crossover
+            do {
+                cross = ler_inteiro("   > Crossover? (1-Uniforme, 2-Um Ponto, 3-Dois Pontos, 0-Voltar): ");
+            } while (cross < 0 || cross > 3);
+            
+            if (cross == 0) voltar = 1;
+            
+            // Seleção (só pergunta se ainda não quis voltar)
+            if (!voltar) {
+                do {
+                    sel = ler_inteiro("   > Selecao? (1-Torneio, 2-Roleta, 0-Voltar): ");
+                } while (sel < 0 || sel > 2);
+                
+                if (sel == 0) voltar = 1;
+            }
+        }
+
+        // --- VERIFICAÇÃO FINAL ---
+        // Se o utilizador escolheu 0 em qualquer submenu, reinicia o loop principal
+        if (voltar) {
+            printf(" >> Operacao cancelada. A voltar ao menu...\n");
+            continue; 
+        }
+
+        // --- EXECUÇÃO ---
+        Solution sol, global_best;
+        global_best.fitness = -1.0;
+        double soma_fit = 0.0;
+
+        printf("\n--- A executar %d runs ---\n", runs);
+        printf("Run\tFitness\n"); // Cabeçalho para Excel
+
+        for (int r = 0; r < runs; r++)
+        {
+            switch (opcao)
+            {
+            case 1: // Hill Climbing
+                sol = hill_climbing(hc_iter, viz);
+                break;
+            case 2: // Simulated Annealing
+                sol = simulated_annealing(sa_tmax, 0.001, 0.99, viz);
+                break;
+            case 3: // Evolutivo
+                sol = evolutionary_algorithm(pop_size, gen, 0.7, 0.1, sel, cross);
+                break;
+            case 4: // Hibrido 1 (GA + SA)
+                // Agora passamos as escolhas (sel, cross, viz) para o híbrido
+                sol = hybrid_algorithm_1(pop_size, gen, sa_tmax, 0.001, sel, cross, viz);
+                break;
+            case 5: // Hibrido 2 (GA + HC)
+                sol = hybrid_algorithm_2(pop_size, gen, hc_iter, sel, cross, viz);
+                break;
+            }
+            // Guardar estatísticas
+            soma_fit += sol.fitness;
+            if (sol.fitness > global_best.fitness)
+                copy_solution(&global_best, &sol);
+
+            // Imprimir linha para Excel (Run e Fitness)
+            // \t cria uma tabulação que o Excel separa automaticamente em colunas
+            printf("%d\t%.2f\n", r + 1, sol.fitness);
+        }
+
+        printf("\n--- ESTATISTICA FINAL ---\n");
+        printf("Media: %.2f\n", soma_fit / runs);
+        printf("Melhor: %.2f\n", global_best.fitness);
+        printf("Solucao: ");
+        for (int i = 0; i < prob.C; i++)
+            if (global_best.selected[i])
+                printf("%d ", i);
+        printf("\n-------------------------\n");
+
+    } while (opcao != 0);
 
     return 0;
 }

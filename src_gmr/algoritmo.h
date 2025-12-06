@@ -1,32 +1,21 @@
 #ifndef ALGORITMO_H
 #define ALGORITMO_H
 
-#include "funcao.h" // para usar Solution
-// #include <math.h>
+#include "funcao.h"
 
-// Gera um vizinho da solução actual (troca 1 ponto escolhido com 1 não escolhido)
-void gera_vizinho_swap(const Solution *actual, Solution *vizinho);
-// Gera um vizinho da solução actual (troca 2 pontos escolhidos por 2 não escolhidos)
-void gera_vizinho_swap2(const Solution *actual, Solution *vizinho);
-
-// Trepa-colinas simples: começa numa solução aleatória e faz max_iter passos
-Solution hill_climbing_old(int max_iter);
+// Hill Climbing (HC - Trepa-Colinas)
 Solution hill_climbing(int max_iter, int vizinhanca_tipo);
-// Trepa-colinas a partir de uma solução dada, faz max_iter passos
-Solution hill_climbing_from(Solution start, int max_iter);
+Solution hill_climbing_from(Solution start_sol, int max_iter, int vizinhanca_tipo); // Necessário para o Híbrido:
 
-// Simulated Annealing: começa numa solução aleatória e faz arrefecimento
+// Simulated Annealing (SA - Recristalização)
 Solution simulated_annealing(double tmax, double tmin, double alpha, int vizinhanca_tipo);
-Solution simulated_annealing_from(Solution start_sol, double tmax, double tmin, double alpha, int vizinhanca_tipo);
+Solution simulated_annealing_from(Solution start_sol, double tmax, double tmin, double alpha, int vizinhanca_tipo); // Necessário para o Híbrido:
 
-// Mutação Swap 2 (Troca 2 pontos de uma vez)
-void swap2_mutation(Solution *s);
+// Genetic Algorithm (GA - Algoritmo Evolutivo) 
+Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross, double prob_mut, int sel_type, int cross_type); 
 
-// Algoritmo Evolutivo Genérico
-// selection_type: 1 = Torneio, 2 = Roleta
-// crossover_type: 1 = Uniforme, 2 = One-Point
-Solution evolutionary_algorithm(int pop_size, int max_generations, double prob_crossover, double prob_mutation, int selection_type, int crossover_type);
-
-
+// Híbridos (GA + SA e GA + HC)
+Solution hybrid_algorithm_1(int pop_size, int generations, double tmax, double tmin, int sel_type, int cross_type, int viz_type); // Evolutionary + SA
+Solution hybrid_algorithm_2(int pop_size, int generations, int hc_iter, int sel_type, int cross_type, int viz_type); // Evolutionary + HC
 
 #endif

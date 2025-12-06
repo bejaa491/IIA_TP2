@@ -4,7 +4,7 @@
 #include "funcao.h"
 
 // Calcula a distância média de uma solução
-double calculate_fitness(Solution *s) {
+double calculate_fitness_old(Solution *s) {
     if (s->num_selected != prob.m) {
         return -1e9; // Solução inválida (penalização grande)
     }
@@ -30,6 +30,22 @@ double calculate_fitness(Solution *s) {
         }
     }
 
+    return (prob.m > 0) ? sum / prob.m : -1e9;
+}
+
+double calculate_fitness(Solution *sol) {
+    double sum = 0.0;
+    // Percorre todos os pares de pontos selecionados
+    for (int i = 0; i < prob.C - 1; i++) {
+        if (sol->selected[i]) { // Só se o ponto i estiver na solução
+            for (int j = i + 1; j < prob.C; j++) {
+                if (sol->selected[j]) { // Só se o ponto j também estiver
+                    sum += prob.dist[i][j];
+                }
+            }
+        }
+    }
+    // CORREÇÃO: Dividir por m (número de locais a construir) [cite: 22]
     return (prob.m > 0) ? sum / prob.m : -1e9;
 }
 
