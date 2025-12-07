@@ -286,13 +286,15 @@ int roulette_selection(Solution *pop, int pop_size)
     return pop_size - 1;
 }
 
-Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross, double prob_mut, int sel_type, int cross_type)
+
+Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross, double prob_mut, int sel_type, int cross_type, int *out_div)
 {
     Solution *pop = malloc(sizeof(Solution) * pop_size);
     Solution *offspring = malloc(sizeof(Solution) * pop_size);
     Solution global_best;
     global_best.fitness = -1.0;
 
+    // Inicialização
     for (int i = 0; i < pop_size; i++)
     {
         random_solution(&pop[i]);
@@ -300,10 +302,14 @@ Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross
             copy_solution(&global_best, &pop[i]);
     }
 
+    // Ciclo das Gerações
     for (int g = 0; g < generations; g++)
     {
-        copy_solution(&offspring[0], &global_best); // Elitismo
 
+        // 1. Elitismo
+        copy_solution(&offspring[0], &global_best);
+
+        // 2. Criar nova população
         for (int i = 1; i < pop_size; i++)
         {
             // Seleção
@@ -344,14 +350,35 @@ Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross
             }
         }
 
+        // 3. Atualizar população e Global Best
         for (int i = 0; i < pop_size; i++)
         {
             copy_solution(&pop[i], &offspring[i]);
             if (pop[i].fitness > global_best.fitness)
                 copy_solution(&global_best, &pop[i]);
         }
-    }
 
+        // Só verificamos a cada 50 gerações para não tornar o código lento
+        if (g % 50 == 0)
+        {
+            int diversidade = count_unique_fitness(pop, pop_size);
+
+            // Opcional: Mostrar progresso no ecrã
+            // printf("Gen %d | Best: %.2f | Diversidade: %d/%d\n", g, global_best.fitness, diversidade, pop_size);
+
+            // Opcional: Parar se estagnar (se a diversidade for 1, todos são iguais)
+            // Só ativamos isto depois de 10% das gerações para dar tempo de começar
+            if (diversidade == 1 && g > generations * 0.1)
+            {
+                // printf(" >> Convergencia prematura detetada na geracao %d. A parar.\n", g);
+                break; // Sai do ciclo for
+            }
+        }
+    }
+    if (out_div != NULL)
+    {
+        *out_div = count_unique_fitness(pop, pop_size);
+    }
     free(pop);
     free(offspring);
     return global_best;
@@ -365,7 +392,7 @@ Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross
 Solution hybrid_algorithm_1(int pop_size, int generations, double tmax, double tmin, int sel_type, int cross_type, int viz_type)
 {
     // Primeiro executa o algoritmo evolutivo
-    Solution best_ga = evolutionary_algorithm(pop_size, generations, 0.7, 0.1, sel_type, cross_type);
+    Solution best_ga = evolutionary_algorithm(pop_size, generations, 0.7, 0.1, sel_type, cross_type, NULL);
     // Depois aplica Simulated Annealing à melhor solução obtida
     return simulated_annealing_from(best_ga, tmax, tmin, 0.99, viz_type);
 }
@@ -374,8 +401,7 @@ Solution hybrid_algorithm_1(int pop_size, int generations, double tmax, double t
 Solution hybrid_algorithm_2(int pop_size, int generations, int hc_iter, int sel_type, int cross_type, int viz_type)
 {
     // Primeiro executa o algoritmo evolutivo
-    Solution best_ga = evolutionary_algorithm(pop_size, generations, 0.7, 0.1, sel_type, cross_type);
+    Solution best_ga = evolutionary_algorithm(pop_size, generations, 0.7, 0.1, sel_type, cross_type, NULL);
     // Depois aplica Hill Climbing à melhor solução obtida
     return hill_climbing_from(best_ga, hc_iter, viz_type);
 }
-
