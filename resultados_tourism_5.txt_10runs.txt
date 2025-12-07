@@ -2,7 +2,7 @@ RESULTADOS - PROBLEMA DE DIVERSIDADE MAXIMA
 Ficheiro: tourism_5.txt
 C=5, m=3
 Execucoes: 10
-Seed: 1765130473
+Seed: 1765131360
 =====================================
 
 === HILL CLIMBING ===
@@ -348,7 +348,7 @@ Crossover: UmPonto
 
 
 =====================================
-    COMPARAÇÃO FINAL DOS ALGORITMOS
+    COMPARACAO FINAL DOS ALGORITMOS
 =====================================
 
 Algoritmo            |     Melhor |       Pior |      Media |     Desvio

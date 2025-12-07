@@ -79,7 +79,6 @@ double calculate_fitness(Solution *s, Problem *prob) {
     }
 
     double sum = 0.0;
-    int count = 0;
 
     // Converte array binário em lista de índices
     int points[MAX_CANDIDATES];
@@ -94,12 +93,11 @@ double calculate_fitness(Solution *s, Problem *prob) {
     for (int i = 0; i < prob->m - 1; i++) {
         for (int j = i + 1; j < prob->m; j++) {
             sum += prob->dist[points[i]][points[j]];
-            count++;
         }
     }
 
-    if (count == 0) return -INF;
-    return sum / count; // média por par
+    // Divide por m (não pelo número de pares!)
+    return sum / prob->m;
 }
 
 // Cria uma solução aleatória válida

@@ -24,27 +24,21 @@ Statistics calculate_statistics(double *results, int num_runs) {
     Statistics stats;
     stats.num_runs = num_runs;
     
-    // Inicializa com primeiro valor
     stats.best = results[0];
     stats.worst = results[0];
     stats.avg = 0.0;
 
-    // Copia todos os resultados
     for (int i = 0; i < num_runs; i++) {
         stats.all_results[i] = results[i];
         
-        // Atualiza melhor e pior
         if (results[i] > stats.best) stats.best = results[i];
         if (results[i] < stats.worst) stats.worst = results[i];
         
-        // Soma para média
         stats.avg += results[i];
     }
     
-    // Calcula média
     stats.avg /= num_runs;
 
-    // Calcula desvio padrão
     double variance = 0.0;
     for (int i = 0; i < num_runs; i++) {
         double diff = results[i] - stats.avg;
@@ -63,7 +57,7 @@ typedef struct {
 
 // Testa Hill Climbing e retorna melhor configuração
 AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FILE *csv) {
-    printf("\n=== TESTE HILL CLIMBING ===\n");
+    printf("\n=== HILL CLIMBING ===\n");
     fprintf(output, "\n=== HILL CLIMBING ===\n");
     fprintf(csv, "\n=== HILL CLIMBING ===\n");
     fprintf(csv, "Configuracao,");
@@ -95,14 +89,13 @@ AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FI
             }
 
             Statistics stats = calculate_statistics(results, num_runs);
-            printf("Melhor: %.4f, Media: %.4f (±%.4f)\n", 
+            printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n", 
                    stats.best, stats.avg, stats.std_dev);
             fprintf(output, "  Melhor: %.4f, Pior: %.4f, Media: %.4f, Desvio: %.4f\n",
                     stats.best, stats.worst, stats.avg, stats.std_dev);
             fprintf(csv, "%.4f,%.4f,%.4f,%.4f\n", 
                     stats.best, stats.worst, stats.avg, stats.std_dev);
 
-            // Atualiza melhor configuração (baseado na média)
             if (stats.avg > best_config.stats.avg) {
                 best_config.stats = stats;
                 snprintf(best_config.name, 100, "HC_%s", config_name);
@@ -110,13 +103,13 @@ AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FI
         }
     }
 
-    printf("\n✓ Melhor HC: %s (Media: %.4f)\n", best_config.name, best_config.stats.avg);
+    printf("\n>> Melhor HC: %s (Media: %.4f)\n", best_config.name, best_config.stats.avg);
     return best_config;
 }
 
 // Testa Algoritmo Evolutivo e retorna melhor configuração
 AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FILE *csv) {
-    printf("\n=== TESTE EVOLUTIVO ===\n");
+    printf("\n=== EVOLUTIVO ===\n");
     fprintf(output, "\n\n=== EVOLUTIVO ===\n");
     fprintf(csv, "\n\n=== EVOLUTIVO ===\n");
     fprintf(csv, "Configuracao,");
@@ -150,7 +143,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
         }
 
         Statistics stats = calculate_statistics(results, num_runs);
-        printf("Melhor: %.4f, Media: %.4f (±%.4f)\n", 
+        printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n", 
                 stats.best, stats.avg, stats.std_dev);
         fprintf(output, "  Melhor: %.4f, Pior: %.4f, Media: %.4f, Desvio: %.4f\n",
                  stats.best, stats.worst, stats.avg, stats.std_dev);
@@ -189,7 +182,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
             }
 
             Statistics stats = calculate_statistics(results, num_runs);
-            printf("Melhor: %.4f, Media: %.4f (±%.4f)\n", 
+            printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n", 
                     stats.best, stats.avg, stats.std_dev);
             fprintf(output, "  Melhor: %.4f, Pior: %.4f, Media: %.4f, Desvio: %.4f\n",
                      stats.best, stats.worst, stats.avg, stats.std_dev);
@@ -228,7 +221,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
         }
 
         Statistics stats = calculate_statistics(results, num_runs);
-        printf("Melhor: %.4f, Media: %.4f (±%.4f)\n", 
+        printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n", 
                stats.best, stats.avg, stats.std_dev);
         fprintf(output, "  Melhor: %.4f, Pior: %.4f, Media: %.4f, Desvio: %.4f\n",
                  stats.best, stats.worst, stats.avg, stats.std_dev);
@@ -266,7 +259,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
         }
 
         Statistics stats = calculate_statistics(results, num_runs);
-        printf("Melhor: %.4f, Media: %.4f (±%.4f)\n", 
+        printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n", 
                stats.best, stats.avg, stats.std_dev);
         fprintf(output, "  Melhor: %.4f, Pior: %.4f, Media: %.4f, Desvio: %.4f\n",
                  stats.best, stats.worst, stats.avg, stats.std_dev);
@@ -279,14 +272,14 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
         }
     }
 
-    printf("\n✓ Melhor EA: %s (Media: %.4f)\n", best_config.name, best_config.stats.avg);
+    printf("\n>> Melhor EA: %s (Media: %.4f)\n", best_config.name, best_config.stats.avg);
     return best_config;
 }
 
 // Testa Híbridos e retorna melhores
 void test_hybrids(Problem *prob, int num_runs, FILE *output, FILE *csv,
                   AlgorithmResult *hybrid1_result, AlgorithmResult *hybrid2_result) {
-    printf("\n=== TESTE HIBRIDOS ===\n");
+    printf("\n=== HIBRIDOS ===\n");
     fprintf(output, "\n\n=== HIBRIDOS ===\n");
     fprintf(csv, "\n\n=== HIBRIDOS ===\n");
     fprintf(csv, "Configuracao,");
@@ -307,7 +300,7 @@ void test_hybrids(Problem *prob, int num_runs, FILE *output, FILE *csv,
     }
     
     Statistics stats_h1 = calculate_statistics(results_h1, num_runs);
-    printf("Melhor: %.4f, Media: %.4f (±%.4f)\n", 
+    printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n", 
            stats_h1.best, stats_h1.avg, stats_h1.std_dev);
     fprintf(output, "  Melhor: %.4f, Pior: %.4f, Media: %.4f, Desvio: %.4f\n",
             stats_h1.best, stats_h1.worst, stats_h1.avg, stats_h1.std_dev);
@@ -331,7 +324,7 @@ void test_hybrids(Problem *prob, int num_runs, FILE *output, FILE *csv,
     }
     
     Statistics stats_h2 = calculate_statistics(results_h2, num_runs);
-    printf("Melhor: %.4f, Media: %.4f (±%.4f)\n", 
+    printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n", 
            stats_h2.best, stats_h2.avg, stats_h2.std_dev);
     fprintf(output, "  Melhor: %.4f, Pior: %.4f, Media: %.4f, Desvio: %.4f\n",
             stats_h2.best, stats_h2.worst, stats_h2.avg, stats_h2.std_dev);
@@ -355,7 +348,7 @@ void test_hybrids(Problem *prob, int num_runs, FILE *output, FILE *csv,
     }
     
     Statistics stats_h3 = calculate_statistics(results_h3, num_runs);
-    printf("Melhor: %.4f, Media: %.4f (±%.4f)\n", 
+    printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n", 
            stats_h3.best, stats_h3.avg, stats_h3.std_dev);
     fprintf(output, "  Melhor: %.4f, Pior: %.4f, Media: %.4f, Desvio: %.4f\n",
             stats_h3.best, stats_h3.worst, stats_h3.avg, stats_h3.std_dev);
@@ -367,13 +360,14 @@ void test_hybrids(Problem *prob, int num_runs, FILE *output, FILE *csv,
 void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
                                 AlgorithmResult h1, AlgorithmResult h2,
                                 FILE *output, FILE *csv) {
-    printf("\n\n╔════════════════════════════════════════════════════════╗\n");
-    printf("║          COMPARAÇÃO FINAL DOS ALGORITMOS              ║\n");
-    printf("╚════════════════════════════════════════════════════════╝\n\n");
+    printf("\n\n");
+    printf("========================================\n");
+    printf("   COMPARACAO FINAL DOS ALGORITMOS\n");
+    printf("========================================\n\n");
 
     fprintf(output, "\n\n");
     fprintf(output, "=====================================\n");
-    fprintf(output, "    COMPARAÇÃO FINAL DOS ALGORITMOS\n");
+    fprintf(output, "    COMPARACAO FINAL DOS ALGORITMOS\n");
     fprintf(output, "=====================================\n\n");
 
     fprintf(csv, "\n\n=== COMPARACAO FINAL ===\n");
@@ -383,8 +377,8 @@ void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
     char *labels[] = {"Melhor HC", "Melhor EA", "Hibrido 1", "Hibrido 2"};
 
     printf("%-20s | %10s | %10s | %10s | %10s\n", 
-           "Algoritmo", "Melhor", "Pior", "Média", "Desvio");
-    printf("-----|------------|------------|------------|------------|\n");
+           "Algoritmo", "Melhor", "Pior", "Media", "Desvio");
+    printf("---------------------|------------|------------|------------|------------|\n");
 
     fprintf(output, "%-20s | %10s | %10s | %10s | %10s\n", 
            "Algoritmo", "Melhor", "Pior", "Media", "Desvio");
@@ -415,7 +409,7 @@ void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
         }
     }
 
-    printf("🏆 MELHOR ALGORITMO: %s (Média: %.4f)\n", 
+    printf(">> MELHOR ALGORITMO: %s (Media: %.4f)\n", 
            labels[best_idx], results[best_idx].stats.avg);
     fprintf(output, "\nMELHOR ALGORITMO: %s (Media: %.4f)\n", 
            labels[best_idx], results[best_idx].stats.avg);
@@ -442,16 +436,16 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    printf("╔════════════════════════════════════════════════════════╗\n");
-    printf("║     OTIMIZAÇÃO - PROBLEMA DE DIVERSIDADE MÁXIMA        ║\n");
-    printf("╚════════════════════════════════════════════════════════╝\n\n");
+    printf("========================================\n");
+    printf("  PROBLEMA DE DIVERSIDADE MAXIMA\n");
+    printf("========================================\n\n");
     printf("Ficheiro: %s\n", argv[1]);
     printf("Problema: C=%d candidaturas, m=%d pontos a selecionar\n", prob.C, prob.m);
-    printf("Execuções por configuração: %d\n", num_runs);
+    printf("Execucoes por configuracao: %d\n", num_runs);
 
     unsigned int seed = (unsigned int)time(NULL);
     srand(seed);
-    printf("Seed aleatória: %u\n", seed);
+    printf("Seed aleatoria: %u\n", seed);
 
     // Cria ficheiros de saída
     char output_filename[256], csv_filename[256];
@@ -493,12 +487,12 @@ int main(int argc, char *argv[]) {
     fclose(output);
     fclose(csv);
 
-    printf("\n╔════════════════════════════════════════════════════════╗\n");
-    printf("║                  TESTES CONCLUÍDOS!                    ║\n");
-    printf("╚════════════════════════════════════════════════════════╝\n\n");
-    printf("📄 Relatório texto: %s\n", output_filename);
-    printf("📊 Dados CSV: %s\n", csv_filename);
-    printf("\n💡 Importa o CSV no Excel para análise completa!\n\n");
+    printf("\n========================================\n");
+    printf("        TESTES CONCLUIDOS!\n");
+    printf("========================================\n\n");
+    printf("Relatorio texto: %s\n", output_filename);
+    printf("Dados CSV: %s\n", csv_filename);
+    printf("\nImporta o CSV no Excel para analise completa!\n\n");
 
     return 0;
 }
