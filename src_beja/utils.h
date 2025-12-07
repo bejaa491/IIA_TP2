@@ -20,4 +20,5 @@ void copy_solution(Solution *dest, Solution *src);
 // Imprime solução na consola (pontos selecionados e fitness)
 void print_solution(Solution *s, Problem *prob);
 
+
 #endif
