@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <math.h>
 #include "structures.h"
 #include "utils.h"
 #include "hillclimbing.h"
@@ -10,19 +9,12 @@
 #include "hybrid.h"
 #include "experiments.h"
 
-// Estrutura para guardar resultados dos melhores algoritmos
 typedef struct {
     char name[100];
     Statistics stats;
 } AlgorithmResult;
 
-// Wrappers para usar com run_trials
 typedef struct { int iterations; int neighborhood; } HCArgs;
-static Solution run_hill_climbing(void *args, Problem *prob) {
-    HCArgs *a = (HCArgs*)args;
-    return hill_climbing(a->iterations, a->neighborhood, prob);
-}
-
 typedef struct {
     int pop_size;
     int generations;
@@ -31,15 +23,20 @@ typedef struct {
     int selection_type;
     int crossover_type;
 } EAArgs;
+typedef struct { int type; int param1; int param2; } HybridArgs;
+
+static Solution run_hill_climbing(void *args, Problem *prob) {
+    HCArgs *a = (HCArgs*)args;
+    return hill_climbing(a->iterations, a->neighborhood, prob);
+}
+
 static Solution run_ea(void *args, Problem *prob) {
     EAArgs *a = (EAArgs*)args;
     return evolutionary_algorithm(a->pop_size, a->generations,
                                   a->cross_prob, a->mut_prob,
-                                  a->selection_type, a->crossover_type,
-                                  prob);
+                                  a->selection_type, a->crossover_type, prob);
 }
 
-typedef struct { int type; int param1; int param2; } HybridArgs;
 static Solution run_hybrid(void *args, Problem *prob) {
     HybridArgs *a = (HybridArgs*)args;
     if (a->type == 1) return hybrid1(a->param1, a->param2, prob);
@@ -47,12 +44,10 @@ static Solution run_hybrid(void *args, Problem *prob) {
     return hybrid3(a->param1, a->param2, prob);
 }
 
-// Testa Hill Climbing e retorna melhor configuração
 AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FILE *csv) {
     printf("\n=== HILL CLIMBING ===\n");
     fprintf(output, "\n=== HILL CLIMBING ===\n");
-    fprintf(csv, "\n=== HILL CLIMBING ===\n");
-    fprintf(csv, "Configuracao,");
+    fprintf(csv, "\n=== HILL CLIMBING ===\nConfiguracao,");
     for (int i = 0; i < num_runs; i++) fprintf(csv, "Run%d,", i+1);
     fprintf(csv, "Melhor,Pior,Media,Desvio\n");
 
@@ -60,22 +55,17 @@ AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FI
     int neighborhoods[] = {1, 2};
 
     AlgorithmResult best_config;
-    best_config.stats.best = -INF;
-    strcpy(best_config.name, "HC");
+    best_config.stats.avg = -INF;
 
     for (int n = 0; n < 2; n++) {
         for (int it = 0; it < 3; it++) {
             char config_name[100];
             snprintf(config_name, 100, "Viz%d_Iter%d", neighborhoods[n], iterations[it]);
-            printf("Vizinhanca %d, Iteracoes %d: ", neighborhoods[n], iterations[it]);
-            fprintf(output, "\nVizinhanca %d, Iteracoes %d\n", neighborhoods[n], iterations[it]);
-            fprintf(csv, "%s,", config_name);
-
+            
             HCArgs args = { iterations[it], neighborhoods[n] };
             Statistics stats = run_trials(config_name, run_hill_climbing, &args, num_runs, output, csv, prob);
 
-            printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n",
-                   stats.best, stats.avg, stats.std_dev);
+            printf("%s: Melhor: %.4f, Media: %.4f\n", config_name, stats.best, stats.avg);
 
             if (stats.avg > best_config.stats.avg) {
                 best_config.stats = stats;
@@ -84,61 +74,46 @@ AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FI
         }
     }
 
-    printf("\n>> Melhor HC: %s (Media: %.4f)\n", best_config.name, best_config.stats.avg);
+    printf(">> Melhor HC: %s (Media: %.4f)\n", best_config.name, best_config.stats.avg);
     return best_config;
 }
 
-// Testa Algoritmo Evolutivo e retorna melhor configuração
 AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FILE *csv) {
     printf("\n=== EVOLUTIVO ===\n");
     fprintf(output, "\n\n=== EVOLUTIVO ===\n");
-    fprintf(csv, "\n\n=== EVOLUTIVO ===\n");
-    fprintf(csv, "Configuracao,");
+    fprintf(csv, "\n\n=== EVOLUTIVO ===\nConfiguracao,");
     for (int i = 0; i < num_runs; i++) fprintf(csv, "Run%d,", i+1);
     fprintf(csv, "Melhor,Pior,Media,Desvio\n");
 
     AlgorithmResult best_config;
     best_config.stats.avg = -INF;
-    strcpy(best_config.name, "EA");
 
-    // Variando população
     int pop_sizes[] = {30, 50, 100};
+    double cross_probs[] = {0.7, 0.8, 0.9};
+    double mut_probs[] = {0.05, 0.1, 0.2};
+    char *sel_names[] = {"Torneio", "Roleta"};
+    int selections[] = {1, 2};
+    char *cross_names[] = {"Uniforme", "UmPonto"};
+    int crossovers[] = {1, 2};
+
     for (int p = 0; p < 3; p++) {
         char config[100];
-        snprintf(config, 100, "Pop%d_Gen100", pop_sizes[p]);
-        printf("Pop: %d: ", pop_sizes[p]);
-        fprintf(output, "\nPopulacao: %d, Geracoes: 100\n", pop_sizes[p]);
-        fprintf(csv, "%s,", config);
-
+        snprintf(config, 100, "Pop%d", pop_sizes[p]);
         EAArgs args = { pop_sizes[p], 100, 0.8, 0.1, 1, 1 };
         Statistics stats = run_trials(config, run_ea, &args, num_runs, output, csv, prob);
-
-        printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n",
-               stats.best, stats.avg, stats.std_dev);
-
+        printf("%s: %.4f\n", config, stats.avg);
         if (stats.avg > best_config.stats.avg) {
             best_config.stats = stats;
             snprintf(best_config.name, 100, "EA_%s", config);
         }
     }
 
-    // Variando probabilidades
-    double cross_probs[] = {0.7, 0.8, 0.9};
-    double mut_probs[] = {0.05, 0.1, 0.2};
     for (int c = 0; c < 3; c++) {
         for (int m = 0; m < 3; m++) {
             char config[100];
             snprintf(config, 100, "Cx%.2f_Mut%.2f", cross_probs[c], mut_probs[m]);
-            printf("Cross: %.2f, Mut: %.2f: ", cross_probs[c], mut_probs[m]);
-            fprintf(output, "\nCrossover: %.2f, Mutacao: %.2f\n", cross_probs[c], mut_probs[m]);
-            fprintf(csv, "%s,", config);
-
             EAArgs args = { 50, 100, cross_probs[c], mut_probs[m], 1, 1 };
             Statistics stats = run_trials(config, run_ea, &args, num_runs, output, csv, prob);
-
-            printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n",
-                   stats.best, stats.avg, stats.std_dev);
-
             if (stats.avg > best_config.stats.avg) {
                 best_config.stats = stats;
                 snprintf(best_config.name, 100, "EA_%s", config);
@@ -146,102 +121,62 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
         }
     }
 
-    // Comparando selecoes
-    char *sel_names[] = {"Torneio", "Roleta"};
-    int selections[] = {1, 2};
     for (int s = 0; s < 2; s++) {
         char config[100];
         snprintf(config, 100, "Sel_%s", sel_names[s]);
-        printf("%s: ", sel_names[s]);
-        fprintf(output, "\nSelecao: %s\n", sel_names[s]);
-        fprintf(csv, "%s,", config);
-
         EAArgs args = { 50, 100, 0.8, 0.1, selections[s], 1 };
         Statistics stats = run_trials(config, run_ea, &args, num_runs, output, csv, prob);
-
-        printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n",
-               stats.best, stats.avg, stats.std_dev);
-
         if (stats.avg > best_config.stats.avg) {
             best_config.stats = stats;
             snprintf(best_config.name, 100, "EA_%s", config);
         }
     }
 
-    // Comparando crossovers
-    char *cross_names[] = {"Uniforme", "UmPonto"};
-    int crossovers[] = {1, 2};
     for (int c = 0; c < 2; c++) {
         char config[100];
         snprintf(config, 100, "Cross_%s", cross_names[c]);
-        printf("%s: ", cross_names[c]);
-        fprintf(output, "\nCrossover: %s\n", cross_names[c]);
-        fprintf(csv, "%s,", config);
-
         EAArgs args = { 50, 100, 0.8, 0.1, 1, crossovers[c] };
         Statistics stats = run_trials(config, run_ea, &args, num_runs, output, csv, prob);
-
-        printf("Melhor: %.4f, Media: %.4f (+/-%.4f)\n",
-               stats.best, stats.avg, stats.std_dev);
-
         if (stats.avg > best_config.stats.avg) {
             best_config.stats = stats;
             snprintf(best_config.name, 100, "EA_%s", config);
         }
     }
 
-    printf("\n>> Melhor EA: %s (Media: %.4f)\n", best_config.name, best_config.stats.avg);
+    printf(">> Melhor EA: %s (Media: %.4f)\n", best_config.name, best_config.stats.avg);
     return best_config;
 }
 
-// Testa Híbridos e retorna melhores
 void test_hybrids(Problem *prob, int num_runs, FILE *output, FILE *csv,
-                  AlgorithmResult *hybrid1_result, AlgorithmResult *hybrid2_result) {
+                  AlgorithmResult *h1_result, AlgorithmResult *h2_result) {
     printf("\n=== HIBRIDOS ===\n");
     fprintf(output, "\n\n=== HIBRIDOS ===\n");
-    fprintf(csv, "\n\n=== HIBRIDOS ===\n");
-    fprintf(csv, "Configuracao,");
+    fprintf(csv, "\n\n=== HIBRIDOS ===\nConfiguracao,");
     for (int i = 0; i < num_runs; i++) fprintf(csv, "Run%d,", i+1);
     fprintf(csv, "Melhor,Pior,Media,Desvio\n");
 
-    // Hibrido 1
-    printf("\n--- Hibrido 1 (Evolutivo + HC) ---\n");
-    fprintf(output, "\n--- Hibrido 1 ---\n");
-    fprintf(csv, "Hibrido1_EA+HC,");
-    HybridArgs h1 = {1, 50, 100}; // type 1 -> hybrid1(pop_size, generations)
+    HybridArgs h1 = {1, 50, 100};
     Statistics stats_h1 = run_trials("Hibrido1_EA+HC", run_hybrid, &h1, num_runs, output, csv, prob);
-    strcpy(hybrid1_result->name, "Hibrido1_EA+HC");
-    hybrid1_result->stats = stats_h1;
+    strcpy(h1_result->name, "Hibrido1_EA+HC");
+    h1_result->stats = stats_h1;
 
-    // Hibrido 2
-    printf("\n--- Hibrido 2 (HC + Evolutivo) ---\n");
-    fprintf(output, "\n--- Hibrido 2 ---\n");
-    fprintf(csv, "Hibrido2_HC+EA,");
     HybridArgs h2 = {2, 1000, 0};
     Statistics stats_h2 = run_trials("Hibrido2_HC+EA", run_hybrid, &h2, num_runs, output, csv, prob);
-    strcpy(hybrid2_result->name, "Hibrido2_HC+EA");
-    hybrid2_result->stats = stats_h2;
+    strcpy(h2_result->name, "Hibrido2_HC+EA");
+    h2_result->stats = stats_h2;
 
-    // Hibrido 3
-    printf("\n--- Hibrido 3 (EA com refinamento local) ---\n");
-    fprintf(output, "\n--- Hibrido 3 ---\n");
-    fprintf(csv, "Hibrido3_EA_Refinado,");
     HybridArgs h3 = {3, 50, 100};
-    Statistics stats_h3 = run_trials("Hibrido3_EA_Refinado", run_hybrid, &h3, num_runs, output, csv, prob);
-    // printed above
+    run_trials("Hibrido3_EA_Refinado", run_hybrid, &h3, num_runs, output, csv, prob);
 }
 
-// Gera tabela comparativa final
 void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
                                 AlgorithmResult h1, AlgorithmResult h2,
                                 FILE *output, FILE *csv) {
-    printf("\n\n");
-    printf("========================================\n");
+    printf("\n========================================\n");
     printf("   COMPARACAO FINAL DOS ALGORITMOS\n");
     printf("========================================\n\n");
 
-    fprintf(output, "\n\n");
-    fprintf(output, "=====================================\n");
+    fprintf(output, "\n\n=====================================\n");
     fprintf(output, "    COMPARACAO FINAL DOS ALGORITMOS\n");
     fprintf(output, "=====================================\n\n");
 
@@ -254,10 +189,6 @@ void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
     printf("%-20s | %10s | %10s | %10s | %10s\n", 
            "Algoritmo", "Melhor", "Pior", "Media", "Desvio");
     printf("---------------------|------------|------------|------------|------------|\n");
-
-    fprintf(output, "%-20s | %10s | %10s | %10s | %10s\n", 
-           "Algoritmo", "Melhor", "Pior", "Media", "Desvio");
-    fprintf(output, "-----+------------+------------+------------+------------+\n");
 
     for (int i = 0; i < 4; i++) {
         printf("%-20s | %10.4f | %10.4f | %10.4f | %10.4f\n",
@@ -273,10 +204,6 @@ void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
                results[i].stats.avg, results[i].stats.std_dev);
     }
 
-    printf("\n");
-    fprintf(output, "\n");
-
-    // Encontra melhor algoritmo
     int best_idx = 0;
     for (int i = 1; i < 4; i++) {
         if (results[i].stats.avg > results[best_idx].stats.avg) {
@@ -284,7 +211,7 @@ void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
         }
     }
 
-    printf(">> MELHOR ALGORITMO: %s (Media: %.4f)\n", 
+    printf("\n>> MELHOR ALGORITMO: %s (Media: %.4f)\n", 
            labels[best_idx], results[best_idx].stats.avg);
     fprintf(output, "\nMELHOR ALGORITMO: %s (Media: %.4f)\n", 
            labels[best_idx], results[best_idx].stats.avg);
@@ -293,41 +220,27 @@ void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         printf("Uso: %s <ficheiro_entrada> [num_runs]\n", argv[0]);
-        printf("Exemplo: %s tourism_5.txt 10\n", argv[0]);
         return 1;
     }
 
-    int num_runs = 10;
-    if (argc >= 3) {
-        num_runs = atoi(argv[2]);
-        if (num_runs < 1 || num_runs > MAX_RUNS) {
-            printf("Numero de execucoes deve estar entre 1 e %d\n", MAX_RUNS);
-            return 1;
-        }
-    }
+    int num_runs = (argc >= 3) ? atoi(argv[2]) : 10;
+    if (num_runs < 1 || num_runs > MAX_RUNS) num_runs = 10;
 
     Problem prob;
-    if (!read_file(argv[1], &prob)) {
-        return 1;
-    }
+    if (!read_file(argv[1], &prob)) return 1;
 
     printf("========================================\n");
     printf("  PROBLEMA DE DIVERSIDADE MAXIMA\n");
-    printf("========================================\n\n");
+    printf("========================================\n");
     printf("Ficheiro: %s\n", argv[1]);
-    printf("Problema: C=%d candidaturas, m=%d pontos a selecionar\n", prob.C, prob.m);
-    printf("Execucoes por configuracao: %d\n", num_runs);
+    printf("C=%d, m=%d, Runs=%d\n", prob.C, prob.m, num_runs);
 
     unsigned int seed = (unsigned int)time(NULL);
     srand(seed);
-    printf("Seed aleatoria: %u\n", seed);
 
-    // Cria ficheiros de saída
     char output_filename[256], csv_filename[256];
-    snprintf(output_filename, sizeof(output_filename), 
-             "resultados_%s_%druns.txt", argv[1], num_runs);
-    snprintf(csv_filename, sizeof(csv_filename), 
-             "resultados_%s_%druns.csv", argv[1], num_runs);
+    snprintf(output_filename, 256, "resultados_%s_%druns.txt", argv[1], num_runs);
+    snprintf(csv_filename, 256, "resultados_%s_%druns.csv", argv[1], num_runs);
 
     FILE *output = fopen(output_filename, "w");
     FILE *csv = fopen(csv_filename, "w");
@@ -337,37 +250,22 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    fprintf(output, "RESULTADOS - PROBLEMA DE DIVERSIDADE MAXIMA\n");
-    fprintf(output, "Ficheiro: %s\n", argv[1]);
-    fprintf(output, "C=%d, m=%d\n", prob.C, prob.m);
-    fprintf(output, "Execucoes: %d\n", num_runs);
-    fprintf(output, "Seed: %u\n", seed);
-    fprintf(output, "=====================================\n");
-
-    fprintf(csv, "RESULTADOS,%s\n", argv[1]);
+    fprintf(output, "RESULTADOS - C=%d, m=%d, Runs=%d, Seed=%u\n", 
+            prob.C, prob.m, num_runs, seed);
     fprintf(csv, "C,%d,m,%d,Runs,%d,Seed,%u\n", prob.C, prob.m, num_runs, seed);
 
-    // Executa testes
-    printf("\n");
     AlgorithmResult best_hc = test_hill_climbing(&prob, num_runs, output, csv);
     AlgorithmResult best_ea = test_evolutionary(&prob, num_runs, output, csv);
-    
-    AlgorithmResult hybrid1_result, hybrid2_result;
-    test_hybrids(&prob, num_runs, output, csv, &hybrid1_result, &hybrid2_result);
-
-    // Gera comparação final
-    generate_final_comparison(best_hc, best_ea, hybrid1_result, hybrid2_result, 
-                             output, csv);
+    AlgorithmResult h1, h2;
+    test_hybrids(&prob, num_runs, output, csv, &h1, &h2);
+    generate_final_comparison(best_hc, best_ea, h1, h2, output, csv);
 
     fclose(output);
     fclose(csv);
 
     printf("\n========================================\n");
-    printf("        TESTES CONCLUIDOS!\n");
+    printf("Resultados: %s e %s\n", output_filename, csv_filename);
     printf("========================================\n\n");
-    printf("Relatorio texto: %s\n", output_filename);
-    printf("Dados CSV: %s\n", csv_filename);
-    printf("\nImporta o CSV no Excel para analise completa!\n\n");
 
     return 0;
 }

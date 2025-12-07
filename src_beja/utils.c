@@ -4,7 +4,9 @@
 #include <ctype.h>
 #include "utils.h"
 
-// Lê o ficheiro de entrada
+// Lê ficheiro de entrada com dois formatos possíveis:
+// 1. Matriz completa: C m seguido de matriz C×C
+// 2. Lista de arestas: C m seguido de linhas "ei ej distancia"
 int read_file(char *filename, Problem *prob) {
     FILE *f = fopen(filename, "r");
     if (!f) {
@@ -12,21 +14,22 @@ int read_file(char *filename, Problem *prob) {
         return 0;
     }
 
+    // Lê cabeçalho: C (total candidatos) e m (pontos a selecionar)
     if (fscanf(f, "%d %d", &prob->C, &prob->m) != 2) {
         printf("Formato inválido no cabeçalho do ficheiro\n");
         fclose(f);
         return 0;
     }
 
-    // Inicializa matriz com zeros
+    // Inicializa matriz de distâncias com zeros
     for (int i = 0; i < prob->C; i++) {
         for (int j = 0; j < prob->C; j++) {
             prob->dist[i][j] = 0.0;
         }
     }
 
+    // Salta espaços em branco após cabeçalho
     int c;
-    // Avança até ao primeiro carácter não-espaço (pode haver newline depois do header)
     do {
         c = fgetc(f);
         if (c == EOF) {
@@ -36,51 +39,53 @@ int read_file(char *filename, Problem *prob) {
     } while (isspace(c));
     ungetc(c, f);
 
+    // Detecta formato: número = matriz, letra = lista de arestas
     if (isdigit(c) || c == '+' || c == '-' || c == '.') {
-        // Modo matriz: lê C x C valores
+        // Formato matriz: lê C×C valores
         for (int i = 0; i < prob->C; i++) {
             for (int j = 0; j < prob->C; j++) {
                 if (fscanf(f, "%lf", &prob->dist[i][j]) != 1) {
-                    printf("Erro ao ler matriz de distâncias (linha %d, coluna %d)\n", i, j);
+                    printf("Erro ao ler matriz de distâncias\n");
                     fclose(f);
                     return 0;
                 }
             }
         }
     } else {
-        // Modo lista de arestas com labels (ex: e1 e2 50.17)
+        // Formato lista: lê linhas "e1 e2 distancia"
         char a[64], b[64];
         double d;
         while (fscanf(f, "%s %s %lf", a, b, &d) == 3) {
             int ia = -1, ib = -1;
+            // Extrai índices (e1 -> 0, e2 -> 1, etc.)
             if (sscanf(a, "e%d", &ia) == 1 && sscanf(b, "e%d", &ib) == 1) {
-                ia--; ib--; // converte para 0-based
+                ia--; ib--; // Converte para índice 0-based
                 if (ia >= 0 && ia < prob->C && ib >= 0 && ib < prob->C) {
                     prob->dist[ia][ib] = d;
-                    prob->dist[ib][ia] = d;
+                    prob->dist[ib][ia] = d; // Matriz simétrica
                 }
-            } else {
-                // linha não reconhecida — ignora
             }
         }
     }
 
-    // garante diagonal zero
+    // Garante diagonal zero (distância de um ponto para si mesmo)
     for (int i = 0; i < prob->C; i++) prob->dist[i][i] = 0.0;
 
     fclose(f);
     return 1;
 }
 
-// Calcula a distância média de uma solução
+// Calcula fitness como distância média entre pares de pontos selecionados
+// Fórmula: soma(dist(i,j)) / m para todos os pares (i,j) selecionados
 double calculate_fitness(Solution *s, Problem *prob) {
+    // Valida que exatamente m pontos estão selecionados
     if (s->num_selected != prob->m) {
         return -INF; // Solução inválida
     }
 
     double sum = 0.0;
 
-    // Converte array binário em lista de índices
+    // Converte array binário em lista de índices dos pontos selecionados
     int points[MAX_CANDIDATES];
     int idx = 0;
     for (int i = 0; i < prob->C; i++) {
@@ -89,52 +94,48 @@ double calculate_fitness(Solution *s, Problem *prob) {
         }
     }
 
-    // Calcula soma das distâncias entre pares
+    // Soma distâncias de todos os pares (i,j) com i < j
     for (int i = 0; i < prob->m - 1; i++) {
         for (int j = i + 1; j < prob->m; j++) {
             sum += prob->dist[points[i]][points[j]];
         }
     }
 
-    // Divide por m (não pelo número de pares!)
+    // Divide por m (conforme especificação do problema)
     return sum / prob->m;
 }
 
-// Cria uma solução aleatória válida
+// Gera solução aleatória válida selecionando m pontos distintos
 void random_solution(Solution *s, Problem *prob) {
+    // Inicializa array com todos os pontos não selecionados
     memset(s->selected, 0, sizeof(s->selected));
     s->num_selected = 0;
 
-    // Seleciona m pontos aleatórios diferentes
+    // Seleciona m pontos aleatórios distintos
     while (s->num_selected < prob->m) {
-        int pos = rand() % prob->C;
-        if (!s->selected[pos]) {
-            s->selected[pos] = 1;
+        int pos = rand() % prob->C; // Escolhe posição aleatória
+        if (!s->selected[pos]) {    // Se ainda não selecionado
+            s->selected[pos] = 1;   // Marca como selecionado
             s->num_selected++;
         }
     }
 
-    // Debug: valida e calcula fitness se estiver tudo ok
-    if (s->num_selected != prob->m) {
-        fprintf(stderr, "DEBUG random_solution: num_selected (%d) != prob->m (%d)\n", s->num_selected, prob->m);
-    }
+    // Calcula fitness da solução gerada
     s->fitness = calculate_fitness(s, prob);
-    // opcional: print curto para debug (comente depois)
-    // printf("DEBUG random_solution: fitness=%.6f\n", s->fitness);
 }
 
-// Copia uma solução
+// Copia todos os campos de uma solução para outra
 void copy_solution(Solution *dest, Solution *src) {
     memcpy(dest->selected, src->selected, sizeof(src->selected));
     dest->num_selected = src->num_selected;
     dest->fitness = src->fitness;
 }
 
-// Imprime solução
+// Imprime solução na consola (formato 1-based para coincidir com "e1, e2, ...")
 void print_solution(Solution *s, Problem *prob) {
     printf("Pontos selecionados: ");
     for (int i = 0; i < prob->C; i++) {
-        if (s->selected[i]) printf("%d ", i + 1); // imprime 1-based para bater com "e1..eC"
+        if (s->selected[i]) printf("%d ", i + 1); // Imprime 1-based
     }
     printf("\nFitness: %.2f\n", s->fitness);
 }
