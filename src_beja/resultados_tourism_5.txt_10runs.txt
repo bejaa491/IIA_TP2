@@ -2,7 +2,7 @@ RESULTADOS - PROBLEMA DE DIVERSIDADE MAXIMA
 Ficheiro: tourism_5.txt
 C=5, m=3
 Execucoes: 10
-Seed: 1765131360
+Seed: 1765137726
 =====================================
 
 === HILL CLIMBING ===

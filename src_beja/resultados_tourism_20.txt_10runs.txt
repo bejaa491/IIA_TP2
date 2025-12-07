@@ -2,7 +2,7 @@ RESULTADOS - PROBLEMA DE DIVERSIDADE MAXIMA
 Ficheiro: tourism_20.txt
 C=20, m=5
 Execucoes: 10
-Seed: 1765131378
+Seed: 1765137733
 =====================================
 
 === HILL CLIMBING ===
@@ -49,28 +49,28 @@ Vizinhanca 1, Iteracoes 2000
 Vizinhanca 2, Iteracoes 500
   Run 1: 164.6534
   Run 2: 164.6534
-  Run 3: 162.6477
-  Run 4: 164.6534
-  Run 5: 162.6477
-  Run 6: 164.6534
+  Run 3: 164.6534
+  Run 4: 161.8199
+  Run 5: 164.6534
+  Run 6: 161.5192
   Run 7: 164.6534
-  Run 8: 164.6534
-  Run 9: 164.6534
+  Run 8: 162.6477
+  Run 9: 162.6477
   Run 10: 164.6230
-  Melhor: 164.6534, Pior: 162.6477, Media: 164.2492, Desvio: 0.8008
+  Melhor: 164.6534, Pior: 161.5192, Media: 163.6525, Desvio: 1.2601
 
 Vizinhanca 2, Iteracoes 1000
   Run 1: 164.6534
   Run 2: 164.6534
   Run 3: 164.6534
-  Run 4: 164.6534
+  Run 4: 164.6230
   Run 5: 164.6534
-  Run 6: 164.6534
+  Run 6: 162.8876
   Run 7: 164.6534
   Run 8: 164.6534
   Run 9: 164.6534
   Run 10: 164.6534
-  Melhor: 164.6534, Pior: 164.6534, Media: 164.6534, Desvio: 0.0000
+  Melhor: 164.6534, Pior: 162.8876, Media: 164.4738, Desvio: 0.5288
 
 Vizinhanca 2, Iteracoes 2000
   Run 1: 164.6534
@@ -91,17 +91,17 @@ Vizinhanca 2, Iteracoes 2000
 --- Variando Populacao ---
 
 Populacao: 30, Geracoes: 100
-  Run 1: 162.6477
+  Run 1: 164.6534
   Run 2: 164.6534
-  Run 3: 164.6534
+  Run 3: 164.6230
   Run 4: 164.6534
-  Run 5: 162.6477
+  Run 5: 164.6534
   Run 6: 164.6534
   Run 7: 164.6534
   Run 8: 164.6534
   Run 9: 164.6534
-  Run 10: 162.6477
-  Melhor: 164.6534, Pior: 162.6477, Media: 164.0517, Desvio: 0.9192
+  Run 10: 164.6534
+  Melhor: 164.6534, Pior: 164.6230, Media: 164.6504, Desvio: 0.0091
 
 Populacao: 50, Geracoes: 100
   Run 1: 164.6534
@@ -136,13 +136,13 @@ Crossover: 0.70, Mutacao: 0.05
   Run 2: 164.6534
   Run 3: 164.6534
   Run 4: 164.6534
-  Run 5: 164.6230
+  Run 5: 164.6534
   Run 6: 164.6534
   Run 7: 164.6534
   Run 8: 164.6534
   Run 9: 164.6534
   Run 10: 164.6534
-  Melhor: 164.6534, Pior: 164.6230, Media: 164.6504, Desvio: 0.0091
+  Melhor: 164.6534, Pior: 164.6534, Media: 164.6534, Desvio: 0.0000
 
 Crossover: 0.70, Mutacao: 0.10
   Run 1: 164.6534
@@ -174,14 +174,14 @@ Crossover: 0.80, Mutacao: 0.05
   Run 1: 164.6534
   Run 2: 164.6534
   Run 3: 164.6534
-  Run 4: 164.6534
+  Run 4: 164.6230
   Run 5: 164.6534
   Run 6: 164.6534
   Run 7: 164.6534
   Run 8: 164.6534
   Run 9: 164.6534
   Run 10: 164.6534
-  Melhor: 164.6534, Pior: 164.6534, Media: 164.6534, Desvio: 0.0000
+  Melhor: 164.6534, Pior: 164.6230, Media: 164.6504, Desvio: 0.0091
 
 Crossover: 0.80, Mutacao: 0.10
   Run 1: 164.6534
@@ -255,13 +255,13 @@ Selecao: Torneio
   Run 2: 164.6534
   Run 3: 164.6534
   Run 4: 164.6534
-  Run 5: 164.6534
+  Run 5: 164.6230
   Run 6: 164.6534
   Run 7: 164.6534
   Run 8: 164.6534
   Run 9: 164.6534
   Run 10: 164.6534
-  Melhor: 164.6534, Pior: 164.6534, Media: 164.6534, Desvio: 0.0000
+  Melhor: 164.6534, Pior: 164.6230, Media: 164.6504, Desvio: 0.0091
 
 Selecao: Roleta
   Run 1: 164.6534
@@ -283,26 +283,26 @@ Crossover: Uniforme
   Run 2: 164.6534
   Run 3: 164.6534
   Run 4: 164.6534
-  Run 5: 164.6534
+  Run 5: 164.6230
   Run 6: 164.6534
   Run 7: 164.6534
   Run 8: 164.6534
   Run 9: 164.6534
   Run 10: 164.6534
-  Melhor: 164.6534, Pior: 164.6534, Media: 164.6534, Desvio: 0.0000
+  Melhor: 164.6534, Pior: 164.6230, Media: 164.6504, Desvio: 0.0091
 
 Crossover: UmPonto
   Run 1: 164.6534
   Run 2: 164.6534
   Run 3: 164.6534
-  Run 4: 164.6534
+  Run 4: 162.6477
   Run 5: 164.6534
   Run 6: 164.6534
   Run 7: 164.6534
   Run 8: 164.6534
   Run 9: 164.6534
   Run 10: 164.6534
-  Melhor: 164.6534, Pior: 164.6534, Media: 164.6534, Desvio: 0.0000
+  Melhor: 164.6534, Pior: 162.6477, Media: 164.4529, Desvio: 0.6017
 
 
 === HIBRIDOS ===
