@@ -1,5 +1,5 @@
 # Compila
-gcc -o optimizer main.c utils.c hillclimbing.c evolutionary.c hybrid.c -lm -O3
+gcc -o optimizer main.c utils.c hillclimbing.c evolutionary.c hybrid.c experiments.c -lm -O3
 
 # Executa
 ./optimizer tourism_5.txt 10
