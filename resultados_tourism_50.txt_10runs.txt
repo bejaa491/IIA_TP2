@@ -1,0 +1,362 @@
+RESULTADOS - PROBLEMA DE DIVERSIDADE MAXIMA
+Ficheiro: tourism_50.txt
+C=50, m=15
+Execucoes: 10
+Seed: 1765131559
+=====================================
+
+=== HILL CLIMBING ===
+
+Vizinhanca 1, Iteracoes 500
+  Run 1: 493.6019
+  Run 2: 494.8644
+  Run 3: 495.8377
+  Run 4: 495.6815
+  Run 5: 495.3160
+  Run 6: 498.0004
+  Run 7: 498.0004
+  Run 8: 499.5381
+  Run 9: 497.2957
+  Run 10: 498.0306
+  Melhor: 499.5381, Pior: 493.6019, Media: 496.6167, Desvio: 1.7366
+
+Vizinhanca 1, Iteracoes 1000
+  Run 1: 499.5381
+  Run 2: 499.2953
+  Run 3: 499.5381
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.5381
+  Run 7: 499.5381
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 499.2953, Media: 499.5138, Desvio: 0.0728
+
+Vizinhanca 1, Iteracoes 2000
+  Run 1: 499.5381
+  Run 2: 499.5381
+  Run 3: 499.5381
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.5381
+  Run 7: 499.5381
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 499.5381, Media: 499.5381, Desvio: 0.0000
+
+Vizinhanca 2, Iteracoes 500
+  Run 1: 491.6367
+  Run 2: 487.3033
+  Run 3: 491.6054
+  Run 4: 497.6478
+  Run 5: 488.6991
+  Run 6: 493.8404
+  Run 7: 487.0968
+  Run 8: 484.5929
+  Run 9: 494.2658
+  Run 10: 495.9903
+  Melhor: 497.6478, Pior: 484.5929, Media: 491.2679, Desvio: 4.0389
+
+Vizinhanca 2, Iteracoes 1000
+  Run 1: 496.7074
+  Run 2: 497.6524
+  Run 3: 497.5470
+  Run 4: 497.5715
+  Run 5: 492.8502
+  Run 6: 496.4868
+  Run 7: 496.2619
+  Run 8: 494.5928
+  Run 9: 495.9112
+  Run 10: 497.5470
+  Melhor: 497.6524, Pior: 492.8502, Media: 496.3128, Desvio: 1.4739
+
+Vizinhanca 2, Iteracoes 2000
+  Run 1: 495.9112
+  Run 2: 496.7535
+  Run 3: 494.7790
+  Run 4: 499.5381
+  Run 5: 499.2953
+  Run 6: 497.2946
+  Run 7: 499.2953
+  Run 8: 497.2114
+  Run 9: 497.5699
+  Run 10: 498.3830
+  Melhor: 499.5381, Pior: 494.7790, Media: 497.6031, Desvio: 1.4795
+
+
+=== EVOLUTIVO ===
+
+--- Variando Populacao ---
+
+Populacao: 30, Geracoes: 100
+  Run 1: 499.5381
+  Run 2: 499.5381
+  Run 3: 499.5381
+  Run 4: 494.2142
+  Run 5: 498.4144
+  Run 6: 499.5381
+  Run 7: 498.3830
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 497.0579
+  Melhor: 499.5381, Pior: 494.2142, Media: 498.5298, Desvio: 1.6409
+
+Populacao: 50, Geracoes: 100
+  Run 1: 499.5381
+  Run 2: 498.3343
+  Run 3: 499.5381
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.5381
+  Run 7: 499.5381
+  Run 8: 499.5381
+  Run 9: 496.1586
+  Run 10: 499.2953
+  Melhor: 499.5381, Pior: 496.1586, Media: 499.0555, Desvio: 1.0296
+
+Populacao: 100, Geracoes: 100
+  Run 1: 499.5381
+  Run 2: 499.5381
+  Run 3: 499.5381
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.5381
+  Run 7: 499.5381
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 499.5381, Media: 499.5381, Desvio: 0.0000
+
+--- Variando Probabilidades ---
+
+Crossover: 0.70, Mutacao: 0.05
+  Run 1: 498.1275
+  Run 2: 499.5381
+  Run 3: 499.2953
+  Run 4: 499.2953
+  Run 5: 499.5381
+  Run 6: 498.3830
+  Run 7: 497.4428
+  Run 8: 498.1275
+  Run 9: 498.4144
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 497.4428, Media: 498.7700, Desvio: 0.7201
+
+Crossover: 0.70, Mutacao: 0.10
+  Run 1: 499.5381
+  Run 2: 498.7146
+  Run 3: 499.5381
+  Run 4: 495.6226
+  Run 5: 499.5381
+  Run 6: 498.1275
+  Run 7: 498.1275
+  Run 8: 496.8445
+  Run 9: 498.7146
+  Run 10: 497.4287
+  Melhor: 499.5381, Pior: 495.6226, Media: 498.2194, Desvio: 1.2240
+
+Crossover: 0.70, Mutacao: 0.20
+  Run 1: 498.0004
+  Run 2: 498.3830
+  Run 3: 498.7146
+  Run 4: 498.7146
+  Run 5: 499.5381
+  Run 6: 498.3343
+  Run 7: 499.2953
+  Run 8: 499.5381
+  Run 9: 497.4780
+  Run 10: 497.0852
+  Melhor: 499.5381, Pior: 497.0852, Media: 498.5082, Desvio: 0.7884
+
+Crossover: 0.80, Mutacao: 0.05
+  Run 1: 499.5381
+  Run 2: 499.5381
+  Run 3: 498.4144
+  Run 4: 499.5381
+  Run 5: 498.7146
+  Run 6: 497.0579
+  Run 7: 498.1275
+  Run 8: 498.7146
+  Run 9: 499.2953
+  Run 10: 497.6478
+  Melhor: 499.5381, Pior: 497.0579, Media: 498.6586, Desvio: 0.8160
+
+Crossover: 0.80, Mutacao: 0.10
+  Run 1: 499.5381
+  Run 2: 498.3830
+  Run 3: 497.0579
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.5381
+  Run 7: 499.5381
+  Run 8: 498.3343
+  Run 9: 499.5381
+  Run 10: 496.7715
+  Melhor: 499.5381, Pior: 496.7715, Media: 498.7775, Desvio: 1.0394
+
+Crossover: 0.80, Mutacao: 0.20
+  Run 1: 499.5381
+  Run 2: 499.2953
+  Run 3: 498.1275
+  Run 4: 499.5381
+  Run 5: 498.7146
+  Run 6: 499.5381
+  Run 7: 499.5381
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 498.1275, Media: 499.2904, Desvio: 0.4597
+
+Crossover: 0.90, Mutacao: 0.05
+  Run 1: 499.5381
+  Run 2: 499.2953
+  Run 3: 499.2953
+  Run 4: 499.2953
+  Run 5: 499.2953
+  Run 6: 499.5381
+  Run 7: 497.6478
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 497.6478, Media: 499.2520, Desvio: 0.5468
+
+Crossover: 0.90, Mutacao: 0.10
+  Run 1: 499.5381
+  Run 2: 499.5381
+  Run 3: 499.5381
+  Run 4: 498.0306
+  Run 5: 499.2953
+  Run 6: 499.5381
+  Run 7: 498.7146
+  Run 8: 498.7146
+  Run 9: 498.1275
+  Run 10: 497.6524
+  Melhor: 499.5381, Pior: 497.6524, Media: 498.8687, Desvio: 0.6894
+
+Crossover: 0.90, Mutacao: 0.20
+  Run 1: 499.5381
+  Run 2: 498.1275
+  Run 3: 499.5381
+  Run 4: 498.7146
+  Run 5: 498.4144
+  Run 6: 499.5381
+  Run 7: 497.8809
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 497.8809, Media: 499.0366, Desvio: 0.6451
+
+--- Comparando Selecoes ---
+
+Selecao: Torneio
+  Run 1: 499.2953
+  Run 2: 499.5381
+  Run 3: 498.1275
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.5381
+  Run 7: 495.6226
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 495.6226, Media: 498.9812, Desvio: 1.1949
+
+Selecao: Roleta
+  Run 1: 499.2953
+  Run 2: 499.5381
+  Run 3: 499.5381
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.2953
+  Run 7: 499.2953
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 499.2953, Media: 499.4653, Desvio: 0.1113
+
+--- Comparando Crossovers ---
+
+Crossover: Uniforme
+  Run 1: 499.5381
+  Run 2: 499.5381
+  Run 3: 499.5381
+  Run 4: 499.5381
+  Run 5: 499.2953
+  Run 6: 498.7146
+  Run 7: 498.1275
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 498.1275, Media: 499.2904, Desvio: 0.4597
+
+Crossover: UmPonto
+  Run 1: 499.5381
+  Run 2: 499.5381
+  Run 3: 498.3830
+  Run 4: 494.7110
+  Run 5: 498.1275
+  Run 6: 496.5258
+  Run 7: 498.3830
+  Run 8: 497.0852
+  Run 9: 499.5381
+  Run 10: 497.0579
+  Melhor: 499.5381, Pior: 494.7110, Media: 497.8888, Desvio: 1.4832
+
+
+=== HIBRIDOS ===
+
+--- Hibrido 1 ---
+  Run 1: 498.7146
+  Run 2: 499.5381
+  Run 3: 498.1275
+  Run 4: 498.7146
+  Run 5: 498.7146
+  Run 6: 498.7146
+  Run 7: 499.5381
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.2953
+  Melhor: 499.5381, Pior: 498.1275, Media: 499.0434, Desvio: 0.4810
+
+--- Hibrido 2 ---
+  Run 1: 499.5381
+  Run 2: 498.7146
+  Run 3: 499.2953
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.5381
+  Run 7: 499.5381
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 498.7146, Media: 499.4315, Desvio: 0.2497
+
+--- Hibrido 3 ---
+  Run 1: 499.5381
+  Run 2: 499.5381
+  Run 3: 499.5381
+  Run 4: 499.5381
+  Run 5: 499.5381
+  Run 6: 499.5381
+  Run 7: 499.5381
+  Run 8: 499.5381
+  Run 9: 499.5381
+  Run 10: 499.5381
+  Melhor: 499.5381, Pior: 499.5381, Media: 499.5381, Desvio: 0.0000
+
+
+=====================================
+    COMPARACAO FINAL DOS ALGORITMOS
+=====================================
+
+Algoritmo            |     Melhor |       Pior |      Media |     Desvio
+-----+------------+------------+------------+------------+
+Melhor HC            |   499.5381 |   499.5381 |   499.5381 |     0.0000
+Melhor EA            |   499.5381 |   499.5381 |   499.5381 |     0.0000
+Hibrido 1            |   499.5381 |   498.1275 |   499.0434 |     0.4810
+Hibrido 2            |   499.5381 |   498.7146 |   499.4315 |     0.2497
+
+
+MELHOR ALGORITMO: Melhor HC (Media: 499.5381)
