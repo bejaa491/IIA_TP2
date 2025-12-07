@@ -9,6 +9,7 @@
 #include "hybrid.h"
 #include "experiments.h"
 
+/* Estruturas auxiliares para passar argumentos aos runners e guardar resultados */
 typedef struct {
     char name[100];
     Statistics stats;
@@ -25,11 +26,16 @@ typedef struct {
 } EAArgs;
 typedef struct { int type; int param1; int param2; } HybridArgs;
 
+/* Wrappers usados por experiments.run_trials:
+   args é um ponteiro para a estrutura específica do algoritmo. */
+
+/* Executa hill climbing com argumentos passados em args */
 static Solution run_hill_climbing(void *args, Problem *prob) {
     HCArgs *a = (HCArgs*)args;
     return hill_climbing(a->iterations, a->neighborhood, prob);
 }
 
+/* Executa algoritmo evolutivo com parâmetros fornecidos em args */
 static Solution run_ea(void *args, Problem *prob) {
     EAArgs *a = (EAArgs*)args;
     return evolutionary_algorithm(a->pop_size, a->generations,
@@ -37,6 +43,7 @@ static Solution run_ea(void *args, Problem *prob) {
                                   a->selection_type, a->crossover_type, prob);
 }
 
+/* Dispara um dos híbridos conforme tipo em args */
 static Solution run_hybrid(void *args, Problem *prob) {
     HybridArgs *a = (HybridArgs*)args;
     if (a->type == 1) return hybrid1(a->param1, a->param2, prob);
@@ -44,6 +51,7 @@ static Solution run_hybrid(void *args, Problem *prob) {
     return hybrid3(a->param1, a->param2, prob);
 }
 
+/* Testes de Hill Climbing: varre configurações e retorna melhor configuração */
 AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FILE *csv) {
     printf("\n=== HILL CLIMBING ===\n");
     fprintf(output, "\n=== HILL CLIMBING ===\n");
@@ -56,6 +64,7 @@ AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FI
 
     AlgorithmResult best_config;
     best_config.stats.avg = -INF;
+    best_config.name[0] = '\0'; /* inicializa string para evitar lixo */
 
     for (int n = 0; n < 2; n++) {
         for (int it = 0; it < 3; it++) {
@@ -78,6 +87,7 @@ AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FI
     return best_config;
 }
 
+/* Testes do algoritmo evolutivo: varre parâmetros e retorna melhor configuração */
 AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FILE *csv) {
     printf("\n=== EVOLUTIVO ===\n");
     fprintf(output, "\n\n=== EVOLUTIVO ===\n");
@@ -87,6 +97,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
 
     AlgorithmResult best_config;
     best_config.stats.avg = -INF;
+    best_config.name[0] = '\0';
 
     int pop_sizes[] = {30, 50, 100};
     double cross_probs[] = {0.7, 0.8, 0.9};
@@ -96,6 +107,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
     char *cross_names[] = {"Uniforme", "UmPonto"};
     int crossovers[] = {1, 2};
 
+    /* Varia tamanho de população */
     for (int p = 0; p < 3; p++) {
         char config[100];
         snprintf(config, 100, "Pop%d", pop_sizes[p]);
@@ -108,6 +120,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
         }
     }
 
+    /* Varia probabilidades de crossover e mutação */
     for (int c = 0; c < 3; c++) {
         for (int m = 0; m < 3; m++) {
             char config[100];
@@ -121,6 +134,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
         }
     }
 
+    /* Varia método de seleção */
     for (int s = 0; s < 2; s++) {
         char config[100];
         snprintf(config, 100, "Sel_%s", sel_names[s]);
@@ -132,6 +146,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
         }
     }
 
+    /* Varia operador de crossover */
     for (int c = 0; c < 2; c++) {
         char config[100];
         snprintf(config, 100, "Cross_%s", cross_names[c]);
@@ -147,6 +162,7 @@ AlgorithmResult test_evolutionary(Problem *prob, int num_runs, FILE *output, FIL
     return best_config;
 }
 
+/* Testes dos híbridos: preenche dois AlgorithmResult de saída e loga terceiro */
 void test_hybrids(Problem *prob, int num_runs, FILE *output, FILE *csv,
                   AlgorithmResult *h1_result, AlgorithmResult *h2_result) {
     printf("\n=== HIBRIDOS ===\n");
@@ -165,10 +181,12 @@ void test_hybrids(Problem *prob, int num_runs, FILE *output, FILE *csv,
     strcpy(h2_result->name, "Hibrido2_HC+EA");
     h2_result->stats = stats_h2;
 
+    /* Executa Hibrido3 apenas para log (não guardamos resultado agregado aqui) */
     HybridArgs h3 = {3, 50, 100};
     run_trials("Hibrido3_EA_Refinado", run_hybrid, &h3, num_runs, output, csv, prob);
 }
 
+/* Gera comparação final entre melhores configurações encontradas */
 void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
                                 AlgorithmResult h1, AlgorithmResult h2,
                                 FILE *output, FILE *csv) {
@@ -217,6 +235,7 @@ void generate_final_comparison(AlgorithmResult hc, AlgorithmResult ea,
            labels[best_idx], results[best_idx].stats.avg);
 }
 
+/* Função main: valida argumentos, carrega problema, executa séries de testes e grava resultados */
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         printf("Uso: %s <ficheiro_entrada> [num_runs]\n", argv[0]);
@@ -224,7 +243,7 @@ int main(int argc, char *argv[]) {
     }
 
     int num_runs = (argc >= 3) ? atoi(argv[2]) : 10;
-    if (num_runs < 1 || num_runs > MAX_RUNS) num_runs = 10;
+    if (num_runs < 1 || num_runs > MAX_RUNS) num_runs = MAX_RUNS;
 
     Problem prob;
     if (!read_file(argv[1], &prob)) return 1;
@@ -235,6 +254,7 @@ int main(int argc, char *argv[]) {
     printf("Ficheiro: %s\n", argv[1]);
     printf("C=%d, m=%d, Runs=%d\n", prob.C, prob.m, num_runs);
 
+    /* Semente baseada no tempo (registar seed no output para reprodutibilidade) */
     unsigned int seed = (unsigned int)time(NULL);
     srand(seed);
 
@@ -254,6 +274,7 @@ int main(int argc, char *argv[]) {
             prob.C, prob.m, num_runs, seed);
     fprintf(csv, "C,%d,m,%d,Runs,%d,Seed,%u\n", prob.C, prob.m, num_runs, seed);
 
+    /* Executa conjuntos de testes e coleta melhores configurações */
     AlgorithmResult best_hc = test_hill_climbing(&prob, num_runs, output, csv);
     AlgorithmResult best_ea = test_evolutionary(&prob, num_runs, output, csv);
     AlgorithmResult h1, h2;
