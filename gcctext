@@ -1,13 +1,14 @@
-# Compilar
-gcc -o optimizer main.c utils.c hillclimbing.c evolutionary.c hybrid.c -lm
+# Compila
+gcc -o optimizer main.c utils.c hillclimbing.c evolutionary.c hybrid.c -lm -O3
 
-# Executar com 10 runs (padrão)
-./optimizer tourism_5.txt
+# Executa
+./optimizer tourism_5.txt 10
+./optimizer tourism_20.txt 10
 
-# Executar com número personalizado de runs
-./optimizer tourism_5.txt 20
+# Gera dois ficheiros:
+# 1. resultados_tourism_5.txt_10runs.txt  (texto formatado)
+# 2. resultados_tourism_5.txt_10runs.csv  (para Excel)
 
-# Resultado: cria ficheiro "resultados_tourism_5.txt_10_runs.txt"
 
 # --- Debug: compilar e executar com instrumentacao ---
 # Compilar com DEBUG_ALGO para prints internos (diversidade/operators/best)

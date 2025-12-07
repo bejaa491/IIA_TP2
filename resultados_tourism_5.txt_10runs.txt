@@ -1,0 +1,362 @@
+RESULTADOS - PROBLEMA DE DIVERSIDADE MAXIMA
+Ficheiro: tourism_5.txt
+C=5, m=3
+Execucoes: 10
+Seed: 1765130473
+=====================================
+
+=== HILL CLIMBING ===
+
+Vizinhanca 1, Iteracoes 500
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Vizinhanca 1, Iteracoes 1000
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Vizinhanca 1, Iteracoes 2000
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Vizinhanca 2, Iteracoes 500
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Vizinhanca 2, Iteracoes 1000
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Vizinhanca 2, Iteracoes 2000
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+
+=== EVOLUTIVO ===
+
+--- Variando Populacao ---
+
+Populacao: 30, Geracoes: 100
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Populacao: 50, Geracoes: 100
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Populacao: 100, Geracoes: 100
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+--- Variando Probabilidades ---
+
+Crossover: 0.70, Mutacao: 0.05
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: 0.70, Mutacao: 0.10
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: 0.70, Mutacao: 0.20
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: 0.80, Mutacao: 0.05
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: 0.80, Mutacao: 0.10
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: 0.80, Mutacao: 0.20
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: 0.90, Mutacao: 0.05
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: 0.90, Mutacao: 0.10
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: 0.90, Mutacao: 0.20
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+--- Comparando Selecoes ---
+
+Selecao: Torneio
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Selecao: Roleta
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+--- Comparando Crossovers ---
+
+Crossover: Uniforme
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+Crossover: UmPonto
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+
+=== HIBRIDOS ===
+
+--- Hibrido 1 ---
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+--- Hibrido 2 ---
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+--- Hibrido 3 ---
+  Run 1: 72.2799
+  Run 2: 72.2799
+  Run 3: 72.2799
+  Run 4: 72.2799
+  Run 5: 72.2799
+  Run 6: 72.2799
+  Run 7: 72.2799
+  Run 8: 72.2799
+  Run 9: 72.2799
+  Run 10: 72.2799
+  Melhor: 72.2799, Pior: 72.2799, Media: 72.2799, Desvio: 0.0000
+
+
+=====================================
+    COMPARAÇÃO FINAL DOS ALGORITMOS
+=====================================
+
+Algoritmo            |     Melhor |       Pior |      Media |     Desvio
+-----+------------+------------+------------+------------+
+Melhor HC            |    72.2799 |    72.2799 |    72.2799 |     0.0000
+Melhor EA            |    72.2799 |    72.2799 |    72.2799 |     0.0000
+Hibrido 1            |    72.2799 |    72.2799 |    72.2799 |     0.0000
+Hibrido 2            |    72.2799 |    72.2799 |    72.2799 |     0.0000
+
+
+MELHOR ALGORITMO: Melhor HC (Media: 72.2799)

@@ -1,0 +1,346 @@
+RESULTADOS - Ficheiro: tourism_20.txt
+C=20, m=5
+Numero de execucoes: 10
+=====================================
+
+=== HILL CLIMBING ===
+Vizinanca 1, Iteracoes 500
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Vizinanca 1, Iteracoes 1000
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Vizinanca 1, Iteracoes 2000
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Vizinanca 2, Iteracoes 500
+Run 1: 82.33
+Run 2: 81.32
+Run 3: 81.32
+Run 4: 81.32
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.31
+Run 8: 81.32
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 81.32, Media: 81.92, Desvio: 0.49
+
+Vizinanca 2, Iteracoes 1000
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Vizinanca 2, Iteracoes 2000
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+
+=== EVOLUTIVO ===
+
+--- Variando Populacao ---
+Populacao: 30, Geracoes: 100
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 81.32
+Run 4: 82.33
+Run 5: 82.31
+Run 6: 82.31
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 81.32, Media: 82.22, Desvio: 0.30
+
+Populacao: 50, Geracoes: 100
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Populacao: 100, Geracoes: 100
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+
+--- Variando Probabilidades ---
+Crossover: 0.70, Mutacao: 0.05
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.31
+Melhor: 82.33, Pior: 82.31, Media: 82.33, Desvio: 0.00
+
+Crossover: 0.70, Mutacao: 0.10
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 81.44
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 81.44, Media: 82.24, Desvio: 0.26
+
+Crossover: 0.70, Mutacao: 0.20
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Crossover: 0.80, Mutacao: 0.05
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.31
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.31, Media: 82.33, Desvio: 0.00
+
+Crossover: 0.80, Mutacao: 0.10
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Crossover: 0.80, Mutacao: 0.20
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Crossover: 0.90, Mutacao: 0.05
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.31
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.31, Media: 82.33, Desvio: 0.00
+
+Crossover: 0.90, Mutacao: 0.10
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 81.44
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 81.44, Media: 82.24, Desvio: 0.26
+
+Crossover: 0.90, Mutacao: 0.20
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+
+--- Comparando Metodos de Selecao ---
+Selecao: Torneio
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.31
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.31, Media: 82.33, Desvio: 0.00
+
+Selecao: Roleta
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+
+--- Comparando Operadores de Recombinacao ---
+Recombinacao: Uniforme
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+Recombinacao: Um Ponto
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+
+=== HIBRIDOS ===
+
+--- Hibrido 1 ---
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+
+--- Hibrido 2 ---
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
+
+--- Hibrido 3 ---
+Run 1: 82.33
+Run 2: 82.33
+Run 3: 82.33
+Run 4: 82.33
+Run 5: 82.33
+Run 6: 82.33
+Run 7: 82.33
+Run 8: 82.33
+Run 9: 82.33
+Run 10: 82.33
+Melhor: 82.33, Pior: 82.33, Media: 82.33, Desvio: 0.00
+
