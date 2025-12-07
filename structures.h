@@ -19,4 +19,20 @@ typedef struct {
     double dist[MAX_CANDIDATES][MAX_CANDIDATES]; // Matriz de distâncias
 } Problem;
 
+// Estrutura para guardar resultados dos melhores algoritmos
+typedef struct {
+    char name[100];
+    Statistics stats;
+} AlgorithmResult;
+
+// Estrutura para armazenar resultados
+typedef struct {
+    double best;
+    double worst;
+    double avg;
+    double std_dev;
+    double all_results[MAX_RUNS];
+    int num_runs;
+} Statistics;
+
 #endif
