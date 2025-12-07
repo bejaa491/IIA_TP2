@@ -191,11 +191,12 @@ int main(int argc, char *argv[])
         global_best.fitness = -1.0;
         double soma_fit = 0.0;
 
-        printf("\n--- A executar %d runs ---\n", runs);
-        printf("Run\tFitness\n"); // Cabeçalho para Excel
+       printf("\n--- A executar %d runs ---\n", runs);
 
+        printf("Run\tFitness\tDiversidade\n");
         for (int r = 0; r < runs; r++)
         {
+            int diversidade_final = -1;
             switch (opcao)
             {
             case 1: // Hill Climbing
@@ -205,7 +206,7 @@ int main(int argc, char *argv[])
                 sol = simulated_annealing(sa_tmax, sa_tmin, sa_alpha, viz);
                 break;
             case 3: // Evolutivo
-                sol = evolutionary_algorithm(pop_size, gen, 0.7, 0.1, sel, cross);
+                sol = evolutionary_algorithm(pop_size, gen, 0.7, 0.1, sel, cross, &diversidade_final);
                 break;
             case 4: // Hibrido 1 (GA + SA)
                 sol = hybrid_algorithm_1(pop_size, gen, sa_tmax, sa_tmin, sel, cross, viz);
@@ -215,10 +216,19 @@ int main(int argc, char *argv[])
                 break;
             }
             // Guardar estatísticas
+     ;
+
             soma_fit += sol.fitness;
-            if (sol.fitness > global_best.fitness)
-                copy_solution(&global_best, &sol);
-            printf("%d\t%.2f\n", r + 1, sol.fitness);
+            if (sol.fitness > global_best.fitness) copy_solution(&global_best, &sol);
+            
+            // Imprimir resultados
+            if (diversidade_final != -1) {
+                // Se for Evolutivo, mostra a diversidade
+                printf("%d\t%.2f\t%d\n", r + 1, sol.fitness, diversidade_final);
+            } else {
+                // Se for HC ou SA, mostra traço "-"
+                printf("%d\t%.2f\t-\n", r + 1, sol.fitness);
+            }
         }
 
         printf("\n--- ESTATISTICA FINAL ---\n");

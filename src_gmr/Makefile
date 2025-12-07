@@ -17,4 +17,8 @@ $(TARGET): $(OBJ)
 clean:
 	rm -f $(OBJ) $(TARGET)
 
-.PHONY: all clean
+test_csv: $(TARGET)
+	./run_tests.sh
+
+
+.PHONY: all clean test_csv

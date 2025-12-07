@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>   // memset, memcpy
+#include <math.h>     // fabs
 #include "utils.h"    // para prob
 #include "funcao.h"
 
@@ -47,6 +48,23 @@ double calculate_fitness(Solution *sol) {
     }
     // CORREÇÃO: Dividir por m (número de locais a construir) [cite: 22]
     return (prob.m > 0) ? sum / prob.m : -1e9;
+}
+
+int count_unique_fitness(Solution *pop, int pop_size) {
+    const double eps = 1e-6;
+    int unique = 0;
+    for (int i = 0; i < pop_size; ++i) {
+        int seen = 0;
+        for (int j = 0; j < i; ++j) {
+            // Se a diferença for minúscula, considera igual
+            if (fabs(pop[i].fitness - pop[j].fitness) < eps) { 
+                seen = 1; 
+                break; 
+            }
+        }
+        if (!seen) ++unique;
+    }
+    return unique;
 }
 
 // Cria uma solução aleatória válida
