@@ -9,15 +9,7 @@
 #include "evolutionary.h"
 #include "hybrid.h"
 
-// Estrutura para armazenar resultados
-typedef struct {
-    double best;
-    double worst;
-    double avg;
-    double std_dev;
-    double all_results[MAX_RUNS];
-    int num_runs;
-} Statistics;
+
 
 // Calcula estatísticas de múltiplas execuções
 Statistics calculate_statistics(double *results, int num_runs) {
@@ -49,11 +41,6 @@ Statistics calculate_statistics(double *results, int num_runs) {
     return stats;
 }
 
-// Estrutura para guardar resultados dos melhores algoritmos
-typedef struct {
-    char name[100];
-    Statistics stats;
-} AlgorithmResult;
 
 // Testa Hill Climbing e retorna melhor configuração
 AlgorithmResult test_hill_climbing(Problem *prob, int num_runs, FILE *output, FILE *csv) {
