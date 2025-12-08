@@ -1,24 +1,36 @@
+# Nome do compilador
 CC = gcc
-CFLAGS = -Wall -Wextra -O3 -std=c99
-LDFLAGS = -lm
 
-TARGET = tp2
-SRC = $(wildcard *.c)
-OBJ = $(SRC:.c=.o)
+# Flags de compilação (Avisos + Otimização)
+CFLAGS = -Wall -Wextra -O2
 
-all: $(TARGET)
+# Bibliotecas (Math library)
+LIBS = -lm
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET) $(LDFLAGS)
+# Diretoria do código fonte
+SRC_DIR = src
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# Nome do executável final
+TARGET = projeto
 
+# Lista de todos os ficheiros .c dentro de src/
+SOURCES = $(wildcard $(SRC_DIR)/*.c)
+
+# Regra principal (default)
+all:
+	@echo "A compilar o projeto..."
+	$(CC) $(CFLAGS) $(SOURCES) -o $(TARGET) $(LIBS)
+	@echo "Sucesso! Executavel '$(TARGET)' criado."
+
+# Regra para limpar o executável (se quiseres recomeçar)
 clean:
-	rm -f $(OBJ) $(TARGET)
+	@echo "A limpar..."
+	rm -f $(TARGET)
 
-test_csv: $(TARGET)
-	./run_tests.sh
+# Corre o script que gera os CSV/TXT de testes
+test1: all
+	./run_experiments1.sh
 
-
-.PHONY: all clean test_csv
+test2: all
+	./run_experiments2.sh
+.PHONY: all clean test1 test2

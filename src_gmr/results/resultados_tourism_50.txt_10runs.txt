@@ -1,0 +1,143 @@
+RESULTADOS - PROBLEMA DE DIVERSIDADE MAXIMA
+Ficheiro: tourism_50.txt
+C=50, m=15
+Execucoes: 10
+=====================================
+
+=== HILL CLIMBING ===
+
+Vizinhanca 1, Iteracoes 500
+  Run 1: 498.41
+  Run 2: 494.82
+  Run 3: 497.88
+  Run 4: 495.88
+  Run 5: 497.55
+  Run 6: 499.30
+  Run 7: 498.13
+  Run 8: 499.54
+  Run 9: 496.77
+  Run 10: 499.54
+  Melhor: 499.5400, Pior: 494.8200, Media: 497.7820, Desvio: 1.4993
+
+Vizinhanca 1, Iteracoes 1000
+  Run 1: 498.71
+  Run 2: 499.54
+  Run 3: 499.54
+  Run 4: 499.54
+  Run 5: 499.30
+  Run 6: 499.54
+  Run 7: 498.71
+  Run 8: 499.54
+  Run 9: 499.54
+  Run 10: 499.54
+  Melhor: 499.5400, Pior: 498.7100, Media: 499.3500, Desvio: 0.3278
+
+Vizinhanca 2, Iteracoes 500
+  Run 1: 488.35
+  Run 2: 490.20
+  Run 3: 482.88
+  Run 4: 490.77
+  Run 5: 489.42
+  Run 6: 491.72
+  Run 7: 487.55
+  Run 8: 493.75
+  Run 9: 484.02
+  Run 10: 492.82
+  Melhor: 493.7500, Pior: 482.8800, Media: 489.1480, Desvio: 3.3744
+
+Vizinhanca 2, Iteracoes 1000
+  Run 1: 495.31
+  Run 2: 492.85
+  Run 3: 493.14
+  Run 4: 488.48
+  Run 5: 493.60
+  Run 6: 490.93
+  Run 7: 496.09
+  Run 8: 494.86
+  Run 9: 489.80
+  Run 10: 494.91
+  Melhor: 496.0900, Pior: 488.4800, Media: 492.9970, Desvio: 2.3948
+
+=== SIMULATED ANNEALING ===
+
+Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1
+  Run 1: 499.54
+  Run 2: 499.54
+  Run 3: 499.54
+  Run 4: 499.54
+  Run 5: 499.54
+  Run 6: 499.54
+  Run 7: 499.54
+  Run 8: 499.54
+  Run 9: 499.54
+  Run 10: 499.54
+  Melhor: 499.5400, Pior: 499.5400, Media: 499.5400, Desvio: 0.0000
+
+Tmax 100, Tmin 0.001, Alpha 0.95, Viz 1
+  Run 1: 499.54
+  Run 2: 499.54
+  Run 3: 499.54
+  Run 4: 499.54
+  Run 5: 499.54
+  Run 6: 499.54
+  Run 7: 499.54
+  Run 8: 499.54
+  Run 9: 499.54
+  Run 10: 499.54
+  Melhor: 499.5400, Pior: 499.5400, Media: 499.5400, Desvio: 0.0000
+
+=== EVOLUTIVO (GA) ===
+
+Cross Uniforme (1), Selecao Torneio (1)
+  Run 1: 499.54
+  Run 2: 499.54
+  Run 3: 499.54
+  Run 4: 499.54
+  Run 5: 499.54
+  Run 6: 499.54
+  Run 7: 499.54
+  Run 8: 499.54
+  Run 9: 499.54
+  Run 10: 499.54
+  Melhor: 499.5400, Pior: 499.5400, Media: 499.5400, Desvio: 0.0000
+
+Cross DoisPontos (3), Selecao Roleta (2)
+  Run 1: 499.54
+  Run 2: 499.54
+  Run 3: 499.30
+  Run 4: 498.33
+  Run 5: 499.54
+  Run 6: 498.13
+  Run 7: 499.54
+  Run 8: 495.32
+  Run 9: 499.30
+  Run 10: 498.13
+  Melhor: 499.5400, Pior: 495.3200, Media: 498.6670, Desvio: 1.2547
+
+=== HIBRIDOS ===
+
+H1: Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1, Cross 1, Sel 1
+  Run 1: 499.54
+  Run 2: 499.54
+  Run 3: 499.54
+  Run 4: 499.54
+  Run 5: 499.54
+  Run 6: 499.54
+  Run 7: 499.54
+  Run 8: 499.54
+  Run 9: 499.54
+  Run 10: 499.54
+  Melhor: 499.5400, Pior: 499.5400, Media: 499.5400, Desvio: 0.0000
+
+H2: Iter 1000, Viz 1, Cross 1, Sel 1
+  Run 1: 499.54
+  Run 2: 499.54
+  Run 3: 499.54
+  Run 4: 499.54
+  Run 5: 499.54
+  Run 6: 499.54
+  Run 7: 499.54
+  Run 8: 499.54
+  Run 9: 499.54
+  Run 10: 499.54
+  Melhor: 499.5400, Pior: 499.5400, Media: 499.5400, Desvio: 0.0000

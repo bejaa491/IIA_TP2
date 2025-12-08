@@ -1,0 +1,11 @@
+Grafo,Algoritmo,Configuracao,Melhor,Pior,Media,Desvio
+tourism_250.txt,HillClimbing,Vizinhanca 1, Iteracoes 500,1768.0700,1734.7000,1751.6900,9.4380
+tourism_250.txt,HillClimbing,Vizinhanca 1, Iteracoes 1000,1793.5900,1771.9200,1786.7670,5.8010
+tourism_250.txt,HillClimbing,Vizinhanca 2, Iteracoes 500,1737.8900,1702.1800,1725.4620,9.9043
+tourism_250.txt,HillClimbing,Vizinhanca 2, Iteracoes 1000,1765.3900,1732.4900,1748.5430,9.7642
+tourism_250.txt,SimAnnealing,Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1,1805.4800,1805.1300,1805.3770,0.1440
+tourism_250.txt,SimAnnealing,Tmax 100, Tmin 0.001, Alpha 0.95, Viz 1,1805.1500,1803.4100,1804.4850,0.5582
+tourism_250.txt,Evolutivo,Cross Uniforme (1), Selecao Torneio (1),1804.9800,1803.3300,1804.1910,0.5525
+tourism_250.txt,Evolutivo,Cross DoisPontos (3), Selecao Roleta (2),1768.4600,1721.2400,1745.6010,14.5658
+tourism_250.txt,Hibrido1_GA_SA,H1: Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1, Cross 1, Sel 1,1805.4800,1805.2700,1805.4450,0.0645
+tourism_250.txt,Hibrido2_GA_HC,H2: Iter 1000, Viz 1, Cross 1, Sel 1,1805.4800,1802.7500,1804.5480,0.8649

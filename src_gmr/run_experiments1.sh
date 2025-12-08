@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-EXEC=./tp2           # nome do executável (do teu Makefile)
+EXEC=./projeto          # nome do executável (do teu Makefile)
 RESULTS_DIR=results
 OUTPUT_CSV="$RESULTS_DIR/resultados.csv"
 
