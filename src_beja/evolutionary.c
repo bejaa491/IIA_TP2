@@ -82,11 +82,7 @@ void uniform_crossover(Solution *p1, Solution *p2, Solution *child, Problem *pro
 
     // Para cada posição, escolhe aleatoriamente de qual pai herdar
     for (int i = 0; i < prob->C; i++) {
-        if (rand() % 2 == 0) {
-            child->selected[i] = p1->selected[i];
-        } else {
-            child->selected[i] = p2->selected[i];
-        }
+        child->selected[i] = (rand() % 2 == 0) ? p1->selected[i] : p2->selected[i];
         if (child->selected[i]) child->num_selected++;
     }
 
