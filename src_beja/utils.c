@@ -75,52 +75,76 @@ int read_file(char *filename, Problem *prob) {
     return 1;
 }
 
-// Calcula fitness como distância média entre pares de pontos selecionados
-// Fórmula: soma(dist(i,j)) / m para todos os pares (i,j) selecionados
+// Calcula fitness como soma das distâncias entre pares de pontos selecionados
+// Dividida por m conforme especificação do problema
 double calculate_fitness(Solution *s, Problem *prob) {
-    // Valida que exatamente m pontos estão selecionados
+
+    // Verificação rápida: solução inválida ⇒ fitness impossível
     if (s->num_selected != prob->m) {
-        return -INF; // Solução inválida
+        return -INF; 
     }
 
     double sum = 0.0;
 
-    // Converte array binário em lista de índices dos pontos selecionados
+    // Lista de pontos selecionados
     int points[MAX_CANDIDATES];
     int idx = 0;
+
     for (int i = 0; i < prob->C; i++) {
         if (s->selected[i]) {
             points[idx++] = i;
         }
     }
 
-    // Soma distâncias de todos os pares (i,j) com i < j
+    // Se por algum erro num_selected estiver errado (segurança extra)
+    if (idx != prob->m) {
+        return -INF;
+    }
+
+    // Soma distâncias de todos os pares (i < j)
     for (int i = 0; i < prob->m - 1; i++) {
         for (int j = i + 1; j < prob->m; j++) {
             sum += prob->dist[points[i]][points[j]];
         }
     }
 
-    // Divide por m (conforme especificação do problema)
     return sum / prob->m;
 }
 
-// Gera solução aleatória válida selecionando m pontos distintos
+
+
+// -------------------------------------------------------------
+// Gera solução aleatória válida selecionando exatamente m pontos
+// -------------------------------------------------------------
 void random_solution(Solution *s, Problem *prob) {
-    // Inicializa array com todos os pontos não selecionados
+
+    // Limpa seleção
     memset(s->selected, 0, sizeof(s->selected));
     s->num_selected = 0;
 
-    // Seleciona m pontos aleatórios distintos
-    while (s->num_selected < prob->m) {
-        int pos = rand() % prob->C; // Escolhe posição aleatória
-        if (!s->selected[pos]) {    // Se ainda não selecionado
-            s->selected[pos] = 1;   // Marca como selecionado
-            s->num_selected++;
-        }
+    // Para evitar bias e acelerar, fazemos um shuffle dos índices
+    int indices[MAX_CANDIDATES];
+    for (int i = 0; i < prob->C; i++) {
+        indices[i] = i;
     }
 
-    // Calcula fitness da solução gerada
+    // Fisher–Yates shuffle ⇒ aleatorização perfeita
+    for (int i = prob->C - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        int temp = indices[i];
+        indices[i] = indices[j];
+        indices[j] = temp;
+    }
+
+    // Seleciona os primeiros m índices baralhados
+    for (int i = 0; i < prob->m; i++) {
+        int idx = indices[i];
+        s->selected[idx] = 1;
+    }
+
+    s->num_selected = prob->m;
+
+    // Calcula fitness final
     s->fitness = calculate_fitness(s, prob);
 }
 
