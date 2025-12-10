@@ -1,0 +1,31 @@
+void reparar_solucao(Solution *s)
+{
+    // Se tiver poucos selecionados, adiciona aleatoriamente
+    while (s->num_selected < prob.m)
+    {
+        int pos = random_l_h(0, prob.C - 1);
+        if (!s->selected[pos])
+        {
+            s->selected[pos] = 1;
+            s->num_selected++;
+        }
+    }
+    // Se tiver a mais, remove aleatoriamente
+    while (s->num_selected > prob.m)
+    {
+        int pos = random_l_h(0, prob.C - 1);
+        if (s->selected[pos])
+        {
+            s->selected[pos] = 0;
+            s->num_selected--;
+        }
+    }
+}
+typedef struct
+{
+    int C;                                       // nº de candidatos
+    int m;                                       // nº de pontos a selecionar
+    double dist[MAX_CANDIDATES][MAX_CANDIDATES]; // matriz de distâncias
+} Problem;
+Problem prob;
+#include "utils.h"

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "utils.h"
 #include "funcao.h"
 #include "algoritmo.h"
@@ -107,6 +108,7 @@ int main(int argc, char *argv[])
         printf("3. Evolutivo (Algoritmo Genetico)\n");
         printf("4. Hibrido 1 (GA + SA)\n");
         printf("5. Hibrido 2 (GA + HC)\n");
+        printf("6. Hibrido 3 (Memetico)\n");
         printf("0. Sair\n");
         opcao = ler_inteiro("Opcao: ");
 
@@ -114,10 +116,11 @@ int main(int argc, char *argv[])
             break;
 
         // --- SUB-MENU DE ESCOLHAS ---
-        int viz = 1;    // 1=Swap, 2=Swap2
-        int cross = 1;  // 1=Unif, 2=OnePoint, 3=TwoPoint
-        int sel = 1;    // 1=Torneio, 2=Roleta
-        int voltar = 0; // Flag para voltar ao menu principal
+        int viz = 1;           // 1=Swap, 2=Swap2
+        int cross = 1;         // 1=Unif, 2=OnePoint, 3=TwoPoint
+        int sel = 1;           // 1=Torneio, 2=Roleta
+        int voltar = 0;        // Flag para voltar ao menu principal        
+        double prob_ls = 0.05; // Probabilidade de refinamento (Memetico)
 
         // --- CONFIGURAÇÃO ESPECÍFICA ---
 
@@ -147,8 +150,8 @@ int main(int argc, char *argv[])
                 voltar = 1;
         }
 
-        // 3. Pergunta da Vizinhança (Para menus 1, 2, 4, 5)
-        if (!voltar && (opcao == 1 || opcao == 2 || opcao == 4 || opcao == 5))
+        // 3. Pergunta da Vizinhança (Para menus 1, 2, 4, 5, 6)
+        if (!voltar && (opcao == 1 || opcao == 2 || opcao == 4 || opcao == 5 || opcao == 6))
         {
             do
             {
@@ -158,11 +161,12 @@ int main(int argc, char *argv[])
                 voltar = 1;
         }
 
-        // 4. Perguntas do Evolutivo (Para menus 3, 4, 5)
+        // 4. Perguntas do Evolutivo (Para menus 3, 4, 5, 6)
 
-        if (!voltar && (opcao == 3 || opcao == 4 || opcao == 5))
+        if (!voltar && (opcao >= 3 && opcao <= 6))
         {
             printf("\n--- Configuracao Evolutivo ---\n");
+            
             do
             {
                 cross = ler_inteiro("   > Crossover? (1-Uniforme, 2-Um Ponto, 3-Dois Pontos, 0-Voltar): ");
@@ -179,6 +183,10 @@ int main(int argc, char *argv[])
                 if (sel == 0)
                     voltar = 1;
             }
+            if (!voltar && opcao == 6)
+            {
+                prob_ls = ler_double("   > Probabilidade de Refinamento (Ex: 0.05)? ");
+            }
         }
 
         // --- VERIFICAÇÃO FINAL ---
@@ -190,8 +198,9 @@ int main(int argc, char *argv[])
         Solution sol, global_best;
         global_best.fitness = -1.0;
         double soma_fit = 0.0;
+        double valores[runs];
 
-       printf("\n--- A executar %d runs ---\n", runs);
+        printf("\n--- A executar %d runs ---\n", runs);
 
         printf("Run\tFitness\tDiversidade\n");
         for (int r = 0; r < runs; r++)
@@ -206,7 +215,7 @@ int main(int argc, char *argv[])
                 sol = simulated_annealing(sa_tmax, sa_tmin, sa_alpha, viz);
                 break;
             case 3: // Evolutivo
-                sol = evolutionary_algorithm(pop_size, gen, 0.7, 0.1, sel, cross, &diversidade_final);
+                sol = evolutionary_algorithm(pop_size, gen, 0.7, 0.1, sel, cross, viz, prob_ls, &diversidade_final);
                 break;
             case 4: // Hibrido 1 (GA + SA)
                 sol = hybrid_algorithm_1(pop_size, gen, sa_tmax, sa_tmin, sel, cross, viz);
@@ -214,26 +223,41 @@ int main(int argc, char *argv[])
             case 5: // Hibrido 2 (GA + HC)
                 sol = hybrid_algorithm_2(pop_size, gen, hc_iter, sel, cross, viz);
                 break;
+            case 6: // Hibrido 3 (Memetico) 
+                sol = evolutionary_algorithm(pop_size, gen, 0.7, 0.1, sel, cross, viz, prob_ls, &diversidade_final);
+                break;
             }
             // Guardar estatísticas
-     ;
-
             soma_fit += sol.fitness;
-            if (sol.fitness > global_best.fitness) copy_solution(&global_best, &sol);
-            
+            if (sol.fitness > global_best.fitness)
+                copy_solution(&global_best, &sol);
+
             // Imprimir resultados
-            if (diversidade_final != -1) {
+            if (diversidade_final != -1)
+            {
                 // Se for Evolutivo, mostra a diversidade
                 printf("%d\t%.2f\t%d\n", r + 1, sol.fitness, diversidade_final);
-            } else {
+            }
+            else
+            {
                 // Se for HC ou SA, mostra traço "-"
                 printf("%d\t%.2f\t-\n", r + 1, sol.fitness);
             }
+            valores[r] = sol.fitness;
         }
+        double media = soma_fit / runs;
+        double soma2 = 0.0;
+        for (int r = 0; r < runs; r++)
+        {
+            double d = valores[r] - media;
+            soma2 += d * d;
+        }
+        double desvio = sqrt(soma2 / runs); // populacional; para amostral / (runs-1)
 
         printf("\n--- ESTATISTICA FINAL ---\n");
-        printf("Media: %.2f\n", soma_fit / runs);
+        printf("Media: %.2f\n", media);
         printf("Melhor: %.2f\n", global_best.fitness);
+        printf("Desvio Padrao: %.2f\n", desvio);
         printf("Solucao: ");
         for (int i = 0; i < prob.C; i++)
             if (global_best.selected[i])

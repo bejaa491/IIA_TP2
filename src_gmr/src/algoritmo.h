@@ -23,11 +23,11 @@ Solution hill_climbing_from(Solution start_sol, int max_iter, int vizinhanca_tip
 Solution simulated_annealing(double tmax, double tmin, double alpha, int vizinhanca_tipo);
 Solution simulated_annealing_from(Solution start_sol, double tmax, double tmin, double alpha, int vizinhanca_tipo); // Necessário para o Híbrido:
 
-// --- Algoritmo Evolutivo (GA - Genetic Algorithm) ---
-Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross, double prob_mut, int sel_type, int cross_type, int *out_div); 
+// --- Algoritmo Evolutivo (GA - Genetic Algorithm ) ---
+// --- Evolutivo + Memético + Estratégia de Inválidos ---
+Solution evolutionary_algorithm(int pop_size, int generations, double prob_cross, double prob_mut, int sel_type, int cross_type, int viz_type, double prob_ls, int *out_div);
 
 // --- Híbridos (GA + SA e GA + HC) ---
 Solution hybrid_algorithm_1(int pop_size, int generations, double tmax, double tmin, int sel_type, int cross_type, int viz_type); // Evolutionary + SA
 Solution hybrid_algorithm_2(int pop_size, int generations, int hc_iter, int sel_type, int cross_type, int viz_type); // Evolutionary + HC
-
 #endif

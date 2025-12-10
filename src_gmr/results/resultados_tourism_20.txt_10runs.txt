@@ -33,30 +33,30 @@ Vizinhanca 1, Iteracoes 1000
   Melhor: 164.6500, Pior: 164.6500, Media: 164.6500, Desvio: 0.0000
 
 Vizinhanca 2, Iteracoes 500
-  Run 1: 162.47
-  Run 2: 162.47
-  Run 3: 159.87
-  Run 4: 164.65
-  Run 5: 164.62
-  Run 6: 162.65
-  Run 7: 161.44
-  Run 8: 162.65
+  Run 1: 164.65
+  Run 2: 164.62
+  Run 3: 162.89
+  Run 4: 163.24
+  Run 5: 164.65
+  Run 6: 163.24
+  Run 7: 159.91
+  Run 8: 159.87
   Run 9: 163.24
-  Run 10: 164.65
-  Melhor: 164.6500, Pior: 159.8700, Media: 162.8710, Desvio: 1.4491
+  Run 10: 162.89
+  Melhor: 164.6500, Pior: 159.8700, Media: 162.9200, Desvio: 1.6597
 
 Vizinhanca 2, Iteracoes 1000
-  Run 1: 162.47
-  Run 2: 163.24
-  Run 3: 164.62
-  Run 4: 164.62
-  Run 5: 164.62
+  Run 1: 164.65
+  Run 2: 164.62
+  Run 3: 164.65
+  Run 4: 164.65
+  Run 5: 162.89
   Run 6: 164.65
-  Run 7: 161.52
-  Run 8: 161.44
-  Run 9: 163.24
+  Run 7: 163.24
+  Run 8: 164.65
+  Run 9: 161.60
   Run 10: 163.24
-  Melhor: 164.6500, Pior: 161.4400, Media: 163.3660, Desvio: 1.1972
+  Melhor: 164.6500, Pior: 161.6000, Media: 163.8840, Desvio: 1.0252
 
 === SIMULATED ANNEALING ===
 

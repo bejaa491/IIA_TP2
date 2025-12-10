@@ -10,6 +10,7 @@ typedef struct {
 } Solution;
 
 double calculate_fitness(Solution *s);
+
 void random_solution(Solution *s);
 void copy_solution(Solution *dest, const Solution *src);
 void print_solution(const Solution *s);

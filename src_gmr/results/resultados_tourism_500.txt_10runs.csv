@@ -1,11 +1,11 @@
-Grafo,Algoritmo,Configuracao,Melhor,Pior,Media,Desvio
-tourism_500.txt,HillClimbing,Vizinhanca 1, Iteracoes 500,3409.7300,3355.6500,3379.5480,15.1807
-tourism_500.txt,HillClimbing,Vizinhanca 1, Iteracoes 1000,3525.2300,3496.9700,3509.9960,9.3754
-tourism_500.txt,HillClimbing,Vizinhanca 2, Iteracoes 500,3398.2000,3323.2400,3363.6680,22.9127
-tourism_500.txt,HillClimbing,Vizinhanca 2, Iteracoes 1000,3496.0600,3407.7200,3454.5670,29.9543
-tourism_500.txt,SimAnnealing,Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1,3613.3000,3612.4700,3612.8970,0.2776
-tourism_500.txt,SimAnnealing,Tmax 100, Tmin 0.001, Alpha 0.95, Viz 1,3612.7500,3605.7100,3609.0340,1.8939
-tourism_500.txt,Evolutivo,Cross Uniforme (1), Selecao Torneio (1),3611.2000,3608.6700,3609.7500,0.7235
-tourism_500.txt,Evolutivo,Cross DoisPontos (3), Selecao Roleta (2),3429.9100,3343.8800,3391.8410,24.2817
-tourism_500.txt,Hibrido1_GA_SA,H1: Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1, Cross 1, Sel 1,3613.4000,3612.4900,3613.1200,0.2922
-tourism_500.txt,Hibrido2_GA_HC,H2: Iter 1000, Viz 1, Cross 1, Sel 1,3611.4800,3607.9900,3609.3420,1.1861
+Grafo;Algoritmo;Configuracao;Melhor;Pior;Media;Desvio
+tourism_500.txt;HillClimbing;"Vizinhanca 1, Iteracoes 500";3427.8500;3359.1700;3400.1270;20.8829
+tourism_500.txt;HillClimbing;"Vizinhanca 1, Iteracoes 1000";3524.7500;3490.4100;3513.2030;10.3567
+tourism_500.txt;HillClimbing;"Vizinhanca 2, Iteracoes 500";3388.0300;3321.7100;3356.5500;18.4210
+tourism_500.txt;HillClimbing;"Vizinhanca 2, Iteracoes 1000";3487.6100;3438.8100;3454.8690;16.8825
+tourism_500.txt;SimAnnealing;"Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1";3613.3500;3612.5500;3613.0390;0.2819
+tourism_500.txt;SimAnnealing;"Tmax 100, Tmin 0.001, Alpha 0.95, Viz 1";3611.8300;3605.1000;3609.8240;1.9519
+tourism_500.txt;Evolutivo;"Cross Uniforme (1), Selecao Torneio (1)";3612.0100;3598.9900;3608.8620;3.6089
+tourism_500.txt;Evolutivo;"Cross DoisPontos (3), Selecao Roleta (2)";3425.7300;3340.9200;3396.2540;25.6179
+tourism_500.txt;Hibrido1_GA_SA;"H1: Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1, Cross 1, Sel 1";3613.3500;3612.6600;3613.0570;0.2152
+tourism_500.txt;Hibrido2_GA_HC;"H2: Iter 1000, Viz 1, Cross 1, Sel 1";3613.2400;3607.4700;3609.9520;1.4679

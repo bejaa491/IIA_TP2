@@ -9,7 +9,7 @@ RESULTS_DIR="results"
 
 mkdir -p "$RESULTS_DIR"
 
-# Lista de grafos (AJUSTA ESTES NOMES)
+# Lista de grafos (AJUSTA ESTES NOMES SE PRECISO)
 GRAFOS=(
   "tourism_5.txt"
   "tourism_20.txt"
@@ -47,7 +47,7 @@ run_config() {
     raw=$(printf "%b\n\n0\n" "$input_seq" | "$EXECUTAVEL" "$grafo")
 
     # Extraimos apenas as linhas "Run <tab> Fitness"
-    # Ex:  "1\t72.2799"
+    # Ex:  "1\t72.2799\t-"
     local runs
     runs=$(echo "$raw" | awk '/^[[:space:]]*[0-9]+\t/ {print $2}')
 
@@ -56,7 +56,7 @@ run_config() {
         return
     fi
 
-    # Escrever secao no TXT, similar ao estilo do exemplo
+    # Escrever secao no TXT, estilo legível
     echo "" >> "$txt"
     echo "$config" >> "$txt"
 
@@ -95,8 +95,9 @@ run_config() {
         "$melhor" "$pior" "$media" "$desvio" >> "$txt"
 
     # Linha para o CSV deste grafo:
-    # Grafo,Algoritmo,Configuracao,Melhor,Pior,Media,Desvio
-    printf "%s,%s,%s,%.4f,%.4f,%.4f,%.4f\n" \
+    # separador ; e configuracao entre aspas
+    # Colunas: Grafo;Algoritmo;Configuracao;Melhor;Pior;Media;Desvio
+    printf "%s;%s;\"%s\";%.4f;%.4f;%.4f;%.4f\n" \
         "$(basename "$grafo")" "$algoritmo" "$config" \
         "$melhor" "$pior" "$media" "$desvio" >> "$csv"
 }
@@ -117,7 +118,7 @@ for grafo in "${GRAFOS[@]}"; do
     # Ler C e m da primeira linha do ficheiro (formato: C m)
     read -r C m < "$grafo"
 
-    # Cabecalho do TXT (estilo do exemplo)
+    # Cabecalho do TXT
     {
         echo "RESULTADOS - PROBLEMA DE DIVERSIDADE MAXIMA"
         echo "Ficheiro: $base"
@@ -127,8 +128,8 @@ for grafo in "${GRAFOS[@]}"; do
         echo ""
     } > "$TXT_OUT"
 
-    # Cabecalho do CSV deste grafo
-    echo "Grafo,Algoritmo,Configuracao,Melhor,Pior,Media,Desvio" > "$CSV_OUT"
+    # Cabecalho do CSV deste grafo (usa ;)
+    echo "Grafo;Algoritmo;Configuracao;Melhor;Pior;Media;Desvio" > "$CSV_OUT"
 
     # ==========================
     # HILL CLIMBING
@@ -217,3 +218,4 @@ done
 
 echo "=== TODOS OS TESTES CONCLUIDOS ==="
 echo "Resultados guardados na pasta '$RESULTS_DIR'."
+

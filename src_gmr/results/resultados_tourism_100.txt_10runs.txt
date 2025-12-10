@@ -7,56 +7,56 @@ Execucoes: 10
 === HILL CLIMBING ===
 
 Vizinhanca 1, Iteracoes 500
-  Run 1: 686.87
-  Run 2: 686.78
-  Run 3: 690.65
-  Run 4: 681.48
-  Run 5: 687.55
-  Run 6: 672.05
-  Run 7: 681.76
-  Run 8: 681.61
-  Run 9: 684.45
-  Run 10: 687.06
-  Melhor: 690.6500, Pior: 672.0500, Media: 684.0260, Desvio: 4.9217
+  Run 1: 681.43
+  Run 2: 686.77
+  Run 3: 683.03
+  Run 4: 684.74
+  Run 5: 681.29
+  Run 6: 683.15
+  Run 7: 685.80
+  Run 8: 689.47
+  Run 9: 689.51
+  Run 10: 687.00
+  Melhor: 689.5100, Pior: 681.2900, Media: 685.2190, Desvio: 2.8547
 
 Vizinhanca 1, Iteracoes 1000
-  Run 1: 689.64
-  Run 2: 690.50
-  Run 3: 685.87
-  Run 4: 687.52
-  Run 5: 689.53
-  Run 6: 689.17
-  Run 7: 691.73
-  Run 8: 691.65
-  Run 9: 689.82
-  Run 10: 689.57
-  Melhor: 691.7300, Pior: 685.8700, Media: 689.5000, Desvio: 1.6712
+  Run 1: 691.56
+  Run 2: 691.68
+  Run 3: 688.10
+  Run 4: 689.65
+  Run 5: 688.58
+  Run 6: 690.79
+  Run 7: 687.98
+  Run 8: 691.80
+  Run 9: 690.81
+  Run 10: 688.31
+  Melhor: 691.8000, Pior: 687.9800, Media: 689.9260, Desvio: 1.4969
 
 Vizinhanca 2, Iteracoes 500
-  Run 1: 674.35
-  Run 2: 670.60
-  Run 3: 685.08
-  Run 4: 664.38
-  Run 5: 675.09
-  Run 6: 672.77
-  Run 7: 673.29
-  Run 8: 690.34
-  Run 9: 671.15
-  Run 10: 671.34
-  Melhor: 690.3400, Pior: 664.3800, Media: 674.8390, Desvio: 7.1088
+  Run 1: 668.43
+  Run 2: 682.65
+  Run 3: 680.41
+  Run 4: 679.38
+  Run 5: 667.81
+  Run 6: 683.49
+  Run 7: 674.60
+  Run 8: 671.66
+  Run 9: 672.99
+  Run 10: 675.02
+  Melhor: 683.4900, Pior: 667.8100, Media: 675.6440, Desvio: 5.3397
 
 Vizinhanca 2, Iteracoes 1000
-  Run 1: 677.82
-  Run 2: 679.45
-  Run 3: 676.20
-  Run 4: 682.45
-  Run 5: 680.04
-  Run 6: 681.28
-  Run 7: 676.86
-  Run 8: 678.03
-  Run 9: 677.01
-  Run 10: 680.78
-  Melhor: 682.4500, Pior: 676.2000, Media: 678.9920, Desvio: 2.0066
+  Run 1: 676.04
+  Run 2: 683.52
+  Run 3: 683.59
+  Run 4: 679.89
+  Run 5: 684.22
+  Run 6: 682.47
+  Run 7: 681.90
+  Run 8: 672.54
+  Run 9: 685.14
+  Run 10: 673.55
+  Melhor: 685.1400, Pior: 672.5400, Media: 680.2860, Desvio: 4.3743
 
 === SIMULATED ANNEALING ===
 
@@ -74,45 +74,45 @@ Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1
   Melhor: 692.0100, Pior: 692.0100, Media: 692.0100, Desvio: 0.0000
 
 Tmax 100, Tmin 0.001, Alpha 0.95, Viz 1
-  Run 1: 692.01
-  Run 2: 692.01
+  Run 1: 691.73
+  Run 2: 691.73
   Run 3: 692.01
-  Run 4: 692.01
-  Run 5: 691.93
+  Run 4: 691.88
+  Run 5: 692.01
   Run 6: 692.01
-  Run 7: 691.93
+  Run 7: 692.01
   Run 8: 692.01
   Run 9: 692.01
   Run 10: 692.01
-  Melhor: 692.0100, Pior: 691.9300, Media: 691.9940, Desvio: 0.0320
+  Melhor: 692.0100, Pior: 691.7300, Media: 691.9410, Desvio: 0.1123
 
 === EVOLUTIVO (GA) ===
 
 Cross Uniforme (1), Selecao Torneio (1)
   Run 1: 692.01
   Run 2: 692.01
-  Run 3: 691.73
-  Run 4: 692.01
-  Run 5: 690.82
-  Run 6: 691.25
+  Run 3: 692.01
+  Run 4: 691.27
+  Run 5: 691.88
+  Run 6: 692.01
   Run 7: 692.01
-  Run 8: 692.01
-  Run 9: 691.88
+  Run 8: 691.93
+  Run 9: 690.73
   Run 10: 692.01
-  Melhor: 692.0100, Pior: 690.8200, Media: 691.7740, Desvio: 0.3914
+  Melhor: 692.0100, Pior: 690.7300, Media: 691.7870, Desvio: 0.4138
 
 Cross DoisPontos (3), Selecao Roleta (2)
-  Run 1: 687.33
-  Run 2: 686.99
-  Run 3: 684.59
-  Run 4: 685.70
-  Run 5: 685.43
-  Run 6: 686.73
-  Run 7: 691.25
-  Run 8: 682.23
-  Run 9: 690.00
-  Run 10: 688.79
-  Melhor: 691.2500, Pior: 682.2300, Media: 686.9040, Desvio: 2.5114
+  Run 1: 689.55
+  Run 2: 683.25
+  Run 3: 684.86
+  Run 4: 681.49
+  Run 5: 682.54
+  Run 6: 686.49
+  Run 7: 687.30
+  Run 8: 686.87
+  Run 9: 686.38
+  Run 10: 687.17
+  Melhor: 689.5500, Pior: 681.4900, Media: 685.5900, Desvio: 2.3727
 
 === HIBRIDOS ===
 
@@ -131,13 +131,13 @@ H1: Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1, Cross 1, Sel 1
 
 H2: Iter 1000, Viz 1, Cross 1, Sel 1
   Run 1: 692.01
-  Run 2: 692.01
+  Run 2: 691.73
   Run 3: 692.01
-  Run 4: 692.01
-  Run 5: 691.73
-  Run 6: 691.88
-  Run 7: 691.40
-  Run 8: 691.93
+  Run 4: 691.88
+  Run 5: 692.01
+  Run 6: 692.01
+  Run 7: 691.93
+  Run 8: 692.01
   Run 9: 692.01
   Run 10: 692.01
-  Melhor: 692.0100, Pior: 691.4000, Media: 691.9000, Desvio: 0.1878
+  Melhor: 692.0100, Pior: 691.7300, Media: 691.9610, Desvio: 0.0881

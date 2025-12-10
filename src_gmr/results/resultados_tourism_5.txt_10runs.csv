@@ -1,11 +1,11 @@
-Grafo,Algoritmo,Configuracao,Melhor,Pior,Media,Desvio
-tourism_5.txt,HillClimbing,Vizinhanca 1, Iteracoes 500,72.2800,72.2800,72.2800,0.0000
-tourism_5.txt,HillClimbing,Vizinhanca 1, Iteracoes 1000,72.2800,72.2800,72.2800,0.0000
-tourism_5.txt,HillClimbing,Vizinhanca 2, Iteracoes 500,72.2800,62.2900,66.8980,4.7362
-tourism_5.txt,HillClimbing,Vizinhanca 2, Iteracoes 1000,72.2800,68.4100,69.9580,1.8959
-tourism_5.txt,SimAnnealing,Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1,72.2800,72.2800,72.2800,0.0000
-tourism_5.txt,SimAnnealing,Tmax 100, Tmin 0.001, Alpha 0.95, Viz 1,72.2800,72.2800,72.2800,0.0000
-tourism_5.txt,Evolutivo,Cross Uniforme (1), Selecao Torneio (1),72.2800,72.2800,72.2800,0.0000
-tourism_5.txt,Evolutivo,Cross DoisPontos (3), Selecao Roleta (2),72.2800,72.2800,72.2800,0.0000
-tourism_5.txt,Hibrido1_GA_SA,H1: Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1, Cross 1, Sel 1,72.2800,72.2800,72.2800,0.0000
-tourism_5.txt,Hibrido2_GA_HC,H2: Iter 1000, Viz 1, Cross 1, Sel 1,72.2800,72.2800,72.2800,0.0000
+Grafo;Algoritmo;Configuracao;Melhor;Pior;Media;Desvio
+tourism_5.txt;HillClimbing;"Vizinhanca 1, Iteracoes 500";72.2800;72.2800;72.2800;0.0000
+tourism_5.txt;HillClimbing;"Vizinhanca 1, Iteracoes 1000";72.2800;72.2800;72.2800;0.0000
+tourism_5.txt;HillClimbing;"Vizinhanca 2, Iteracoes 500";72.2800;62.2900;69.1210;3.8044
+tourism_5.txt;HillClimbing;"Vizinhanca 2, Iteracoes 1000";72.2800;62.2900;65.7370;3.6166
+tourism_5.txt;SimAnnealing;"Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1";72.2800;72.2800;72.2800;0.0000
+tourism_5.txt;SimAnnealing;"Tmax 100, Tmin 0.001, Alpha 0.95, Viz 1";72.2800;72.2800;72.2800;0.0000
+tourism_5.txt;Evolutivo;"Cross Uniforme (1), Selecao Torneio (1)";72.2800;72.2800;72.2800;0.0000
+tourism_5.txt;Evolutivo;"Cross DoisPontos (3), Selecao Roleta (2)";72.2800;72.2800;72.2800;0.0000
+tourism_5.txt;Hibrido1_GA_SA;"H1: Tmax 100, Tmin 0.001, Alpha 0.99, Viz 1, Cross 1, Sel 1";72.2800;72.2800;72.2800;0.0000
+tourism_5.txt;Hibrido2_GA_HC;"H2: Iter 1000, Viz 1, Cross 1, Sel 1";72.2800;72.2800;72.2800;0.0000

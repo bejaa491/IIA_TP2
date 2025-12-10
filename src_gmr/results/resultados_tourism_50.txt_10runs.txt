@@ -7,56 +7,56 @@ Execucoes: 10
 === HILL CLIMBING ===
 
 Vizinhanca 1, Iteracoes 500
-  Run 1: 498.41
-  Run 2: 494.82
-  Run 3: 497.88
-  Run 4: 495.88
-  Run 5: 497.55
-  Run 6: 499.30
-  Run 7: 498.13
-  Run 8: 499.54
-  Run 9: 496.77
+  Run 1: 499.30
+  Run 2: 498.33
+  Run 3: 499.30
+  Run 4: 497.06
+  Run 5: 497.43
+  Run 6: 499.54
+  Run 7: 496.90
+  Run 8: 498.33
+  Run 9: 499.54
   Run 10: 499.54
-  Melhor: 499.5400, Pior: 494.8200, Media: 497.7820, Desvio: 1.4993
+  Melhor: 499.5400, Pior: 496.9000, Media: 498.5270, Desvio: 1.0175
 
 Vizinhanca 1, Iteracoes 1000
-  Run 1: 498.71
-  Run 2: 499.54
-  Run 3: 499.54
+  Run 1: 499.30
+  Run 2: 498.71
+  Run 3: 498.13
   Run 4: 499.54
   Run 5: 499.30
   Run 6: 499.54
-  Run 7: 498.71
-  Run 8: 499.54
+  Run 7: 499.54
+  Run 8: 499.30
   Run 9: 499.54
   Run 10: 499.54
-  Melhor: 499.5400, Pior: 498.7100, Media: 499.3500, Desvio: 0.3278
+  Melhor: 499.5400, Pior: 498.1300, Media: 499.2440, Desvio: 0.4443
 
 Vizinhanca 2, Iteracoes 500
-  Run 1: 488.35
-  Run 2: 490.20
-  Run 3: 482.88
-  Run 4: 490.77
-  Run 5: 489.42
-  Run 6: 491.72
-  Run 7: 487.55
-  Run 8: 493.75
-  Run 9: 484.02
-  Run 10: 492.82
-  Melhor: 493.7500, Pior: 482.8800, Media: 489.1480, Desvio: 3.3744
+  Run 1: 486.32
+  Run 2: 489.01
+  Run 3: 492.56
+  Run 4: 493.42
+  Run 5: 488.58
+  Run 6: 484.10
+  Run 7: 488.20
+  Run 8: 491.29
+  Run 9: 486.31
+  Run 10: 488.40
+  Melhor: 493.4200, Pior: 484.1000, Media: 488.8190, Desvio: 2.7700
 
 Vizinhanca 2, Iteracoes 1000
-  Run 1: 495.31
-  Run 2: 492.85
-  Run 3: 493.14
-  Run 4: 488.48
-  Run 5: 493.60
-  Run 6: 490.93
-  Run 7: 496.09
-  Run 8: 494.86
-  Run 9: 489.80
-  Run 10: 494.91
-  Melhor: 496.0900, Pior: 488.4800, Media: 492.9970, Desvio: 2.3948
+  Run 1: 493.09
+  Run 2: 497.43
+  Run 3: 492.59
+  Run 4: 497.85
+  Run 5: 496.25
+  Run 6: 496.86
+  Run 7: 496.49
+  Run 8: 488.18
+  Run 9: 491.64
+  Run 10: 497.30
+  Melhor: 497.8500, Pior: 488.1800, Media: 494.7680, Desvio: 3.0542
 
 === SIMULATED ANNEALING ===
 
@@ -104,15 +104,15 @@ Cross Uniforme (1), Selecao Torneio (1)
 Cross DoisPontos (3), Selecao Roleta (2)
   Run 1: 499.54
   Run 2: 499.54
-  Run 3: 499.30
-  Run 4: 498.33
-  Run 5: 499.54
-  Run 6: 498.13
-  Run 7: 499.54
-  Run 8: 495.32
-  Run 9: 499.30
-  Run 10: 498.13
-  Melhor: 499.5400, Pior: 495.3200, Media: 498.6670, Desvio: 1.2547
+  Run 3: 498.71
+  Run 4: 497.57
+  Run 5: 498.13
+  Run 6: 499.54
+  Run 7: 498.38
+  Run 8: 496.77
+  Run 9: 496.84
+  Run 10: 499.54
+  Melhor: 499.5400, Pior: 496.7700, Media: 498.4560, Desvio: 1.0543
 
 === HIBRIDOS ===
 
